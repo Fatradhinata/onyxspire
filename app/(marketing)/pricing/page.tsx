@@ -175,41 +175,41 @@ export default function Pricing() {
               <button className="w-full py-4 bg-white border-2 border-slate-200 text-slate-800 rounded-xl font-mono-custom font-bold hover:border-emerald-500 hover:text-emerald-600 transition-all shadow-sm mb-8 flex justify-center items-center gap-2 group-hover:bg-slate-50">
                 Try For Free
               </button>
-              <ul class="space-y-4 text-sm text-slate-600 font-medium">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+              <ul className="space-y-4 text-sm text-slate-600 font-medium">
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Run limit: 1 time in 2 days</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Range Port Scan: 1-1000 ports</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Cooldown: 30 minutes</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
-              <div class="text-slate-400">Limited Result Visibility</div>
+              <div className="text-slate-400">Limited Result Visibility</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
-              <div class="text-slate-400">Solution & Remediation</div>
+              <div className="text-slate-400">Solution & Remediation</div>
             </li>
           </ul>
             </div>
@@ -247,41 +247,41 @@ export default function Pricing() {
               <button className="w-full py-4 bg-white border-2 border-slate-200 text-slate-800 rounded-xl font-mono-custom font-bold hover:border-sky-500 hover:text-sky-600 transition-all shadow-sm mb-8 flex justify-center items-center gap-2 group-hover:bg-slate-50">
                 Get Started
               </button>
-              <ul class="space-y-4 text-sm text-slate-600 font-medium">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+              <ul className="space-y-4 text-sm text-slate-600 font-medium">
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Run limit: 2 times in 2 days</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Range Port Scan: 1-4000 ports</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Cooldown: 10 minutes</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
-              <div class="text-slate-400">Limited Result Visibility</div>
+              <div className="text-slate-400">Limited Result Visibility</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-slate-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
-              <div class="text-slate-400">Solution & Remediation</div>
+              <div className="text-slate-400">Solution & Remediation</div>
             </li>
           </ul>
             </div>
@@ -325,41 +325,41 @@ export default function Pricing() {
                 <button className="w-full py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-xl font-mono-custom font-bold hover:from-sky-400 hover:to-blue-500 transition-all shadow-lg shadow-sky-500/40 mb-8 transform hover:-translate-y-1">
                   Get Started Now
                 </button>
-                <ul class="space-y-4 text-sm text-slate-300 font-medium">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
+                <ul className="space-y-4 text-sm text-slate-300 font-medium">
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <div>Run limit: 10 times in 2 days</div>
               </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <div>Full Range Port Scan</div>
               </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <div>Cooldown: 3 minutes</div>
               </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <div class="text-white">Full Result Visibility</div>
+                <div className="text-white">Full Result Visibility</div>
               </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(56,189,248,0.6)]"
                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <div class="text-white">Solution & Remediation Given</div>
+                <div className="text-white">Solution & Remediation Given</div>
               </li>
             </ul>
               </div>
@@ -383,37 +383,37 @@ export default function Pricing() {
               <button className="w-full py-4 bg-slate-800 text-white rounded-xl font-mono-custom font-bold hover:bg-slate-900 transition-all shadow-md mb-8 group-hover:shadow-indigo-500/20">
                 Contact Sales
               </button>
-              <ul class="space-y-4 text-sm text-slate-600 font-medium">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+              <ul className="space-y-4 text-sm text-slate-600 font-medium">
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>No Run Limit</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Cooldown: 20 seconds</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Granted Everything</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
               <div>Dedicated Account Manager</div>
             </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+            <li className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
               </svg>
