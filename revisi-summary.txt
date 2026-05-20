@@ -1,0 +1,26 @@
+DAFTAR REVISI ONYXSPIRE APP
+Tanggal: 20 Mei 2026
+
+1. SQL Injector Module (/sql-injector):
+   - Pembuatan halaman utama SQL Map Injector dengan desain konsisten.
+   - Implementasi simulasi terminal dan logic fetch API (siap dihubungkan backend).
+   - Penambahan fitur "Product Tour" (Spotlight Tutorial) yang otomatis muncul tiap 24 jam.
+   - Penambahan styling khusus di sql-injector.css.
+
+2. Command Center (/dashboard):
+   - Perombakan total layout dashboard.
+   - Penghapusan widget lama (Health Score, Execution Panel, Toolkit).
+   - Implementasi "System Ready" widget compact di bagian atas dengan quick actions.
+   - Migrasi dan upgrade tabel "Monitored Domains" dengan fitur expandable row untuk melihat audit history.
+   - Penambahan tombol "VIEW REPORTS" dan "LAUNCH SCAN" di widget utama.
+
+3. Audit Reports (/reports):
+   - Perombakan sistem pemilihan domain menjadi "Searchable Dropdown" yang scalable (siap untuk ratusan domain).
+   - Implementasi fitur "Export CSV" fungsional (generate file download).
+   - Implementasi mock logic "Download PDF" (trigger print layout).
+   - Penyesuaian struktur data agar mudah dihubungkan ke database.
+
+4. Global & Sidebar:
+   - Penghapusan total modul "Asset Management" (folder app/(dashboard)/assets dihapus).
+   - Update Sidebar.tsx untuk membuang link Asset Management dan merapikan navigasi.
+   - Pembuatan komponen reusable ProductTour.tsx di folder /components.

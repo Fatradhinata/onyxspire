@@ -54,9 +54,6 @@ export function Sidebar() {
             <h1 className="font-amarillo text-xl text-white tracking-widest mt-1">
               ONYXSPIRE
             </h1>
-            <div className="font-mono-custom text-[9px] text-sky-400 uppercase tracking-widest">
-              Workspace: Tenant_01
-            </div>
           </div>
         </div>
 
@@ -83,22 +80,7 @@ export function Sidebar() {
             <span className="font-mono-custom text-sm">Command Center</span>
           </Link>
 
-          <Link href="/assets" className={getNavClass("/assets")}>
-            <svg
-              className={`w-5 h-5 transition-colors ${pathname === "/assets" ? "text-sky-400" : "group-hover:text-sky-400"}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-              />
-            </svg>
-            <span className="font-mono-custom text-sm">Asset Management</span>
-          </Link>
+
 
           <div className="py-1.5">
             <div
@@ -125,6 +107,8 @@ export function Sidebar() {
             </div>
             <div className="ml-6 pl-4 border-l-2 border-slate-800/80 space-y-1.5 mt-1 relative">
               {/* === SUB MENU PAKE getNavClass(path, true) === */}
+
+              {/* Automated Hub */}
               <Link href="/scanner" className={getNavClass("/scanner", true)}>
                 {pathname === "/scanner" && (
                   <div className="absolute -left-[18px] top-1/2 -translate-y-1/2 w-[18px] h-[2px] bg-sky-500/80 rounded-r-full shadow-[0_0_5px_rgba(14,165,233,0.8)]"></div>
@@ -141,6 +125,27 @@ export function Sidebar() {
                 </span>
               </Link>
 
+              {/* SQL Map Injector */}
+              <Link
+                href="/sql-injector"
+                className={getNavClass("/sql-injector", true)}
+              >
+                {pathname === "/sql-injector" && (
+                  <div className="absolute -left-[18px] top-1/2 -translate-y-1/2 w-[18px] h-[2px] bg-sky-500/80 rounded-r-full shadow-[0_0_5px_rgba(14,165,233,0.8)]"></div>
+                )}
+                <span
+                  className={`font-mono-custom text-xs ${pathname === "/sql-injector" ? "text-sky-500 drop-shadow-[0_0_5px_rgba(14,165,233,0.5)]" : "text-slate-600 group-hover:text-sky-400 transition-colors"}`}
+                >
+                  &gt;
+                </span>
+                <span
+                  className={`font-mono-custom text-xs ${pathname === "/sql-injector" ? "font-bold" : ""}`}
+                >
+                  SQL Map Injector
+                </span>
+              </Link>
+
+              {/* Deep Port Scan */}
               <Link
                 href="/port-scanner"
                 className={getNavClass("/port-scanner", true)}

@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useState, useRef, useEffect } from "react";
 
 /* ─────────────────────────── Types ─────────────────────────── */
 
@@ -206,7 +206,21 @@ const Header: React.FC = () => (
 
 /* ─────────────────────────── Target Vector ─────────────────────────── */
 
-const TargetVector: React.FC = () => (
+interface TargetVectorProps {
+  target: string;
+  setTarget: (t: string) => void;
+  onVerify: () => void;
+  isVerifying: boolean;
+  dnsVerified: boolean | null;
+}
+
+const TargetVector: React.FC<TargetVectorProps> = ({
+  target,
+  setTarget,
+  onVerify,
+  isVerifying,
+  dnsVerified,
+}) => (
   <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-8 shadow-md relative overflow-hidden">
     <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-bl from-sky-100 to-transparent opacity-50 rounded-bl-full pointer-events-none" />
 
@@ -224,18 +238,39 @@ const TargetVector: React.FC = () => (
         <input
           type="text"
           placeholder="target-domain.com or IP Address"
-          defaultValue="beast.com"
+          value={target}
+          onChange={(e) => setTarget(e.target.value)}
           className="flex-1 px-4 py-3 sm:py-4 min-w-0 outline-none font-mono text-slate-800 text-sm font-bold placeholder-slate-400"
         />
       </div>
-      <button className="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-6 py-3 sm:py-4 rounded-xl font-mono font-bold text-sm transition-colors flex items-center justify-center gap-2 whitespace-nowrap shadow-sm w-full md:w-auto">
-        <IconRefresh />
-        Verify DNS
+      <button
+        onClick={onVerify}
+        disabled={isVerifying}
+        className="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-6 py-3 sm:py-4 rounded-xl font-mono font-bold text-sm transition-colors flex items-center justify-center gap-2 whitespace-nowrap shadow-sm w-full md:w-auto disabled:opacity-50"
+      >
+        {isVerifying ? (
+          <span className="animate-spin h-4 w-4 border-2 border-sky-500 border-t-transparent rounded-full" />
+        ) : (
+          <IconRefresh />
+        )}
+        {dnsVerified === true
+          ? "DNS Verified"
+          : dnsVerified === false
+            ? "DNS Error"
+            : "Verify DNS"}
       </button>
     </div>
 
     <p className="text-[10px] font-mono text-slate-400 mt-3 leading-relaxed">
       * Ensure you have explicit authorization before scanning the target.
+      {dnsVerified === true && (
+        <span className="text-green-500 ml-2">
+          [+] Target resolution confirmed.
+        </span>
+      )}
+      {dnsVerified === false && (
+        <span className="text-red-500 ml-2">[-] Failed to resolve target.</span>
+      )}
     </p>
   </div>
 );
@@ -342,32 +377,31 @@ const LockedModule: React.FC<{ module: Module }> = ({ module }) => (
 /* ─────────────────────────── Modules Panel ─────────────────────────── */
 
 const offensiveModules: Module[] = [
-  {
-    id: "sqlmap",
-    name: "SQLMAP Injector",
-    tag: "Database",
-    description:
-      "Automated SQL injection and database takeover tool. Probes for blind, boolean, and error-based flaws.",
-    variant: "offensive",
-    defaultChecked: true,
-  },
+//   {
+//     id: "sqlmap",
+//     name: "SQLMAP Injector",
+//     tag: "Database",
+//     description:
+//       "Automated SQL injection and database takeover tool. Probes for blind, boolean, and error-based flaws.",
+//     variant: "offensive",
+//     defaultChecked: true,
+//   },
   {
     id: "wpscan",
     name: "WPSCAN Audit",
     tag: "CMS",
     description:
       "Black box WordPress vulnerability scanner. Checks for outdated plugins, themes, and core misconfigurations.",
-    variant: "offensive",
-    defaultChecked: true,
+    variant: "offensive",    
   },
-  {
-    id: "deepport",
-    name: "Deep Port Scan",
-    tag: "Network",
-    description: "Scan all 65,535 TCP/UDP ports aggressively.",
-    variant: "offensive",
-    locked: true,
-  },
+  // {
+  //   id: "deepport",
+  //   name: "Deep Port Scan",
+  //   tag: "Network",
+  //   description: "Scan all 65,535 TCP/UDP ports aggressively.",
+  //   variant: "offensive",
+  //   locked: false,
+  // },
   {
     id: "ffuf",
     name: "FFUF Fuzzer",
@@ -411,7 +445,6 @@ const OffensivePanel: React.FC<ModulesPanelProps> = ({ checked, onToggle }) => (
         </div>
       </div>
     </div>
-
     <div className="p-5 sm:p-6 space-y-4 flex-1 bg-white">
       {offensiveModules.map((mod) =>
         mod.locked ? (
@@ -430,7 +463,8 @@ const OffensivePanel: React.FC<ModulesPanelProps> = ({ checked, onToggle }) => (
 );
 
 const DefensivePanel: React.FC<ModulesPanelProps> = ({ checked, onToggle }) => (
-  <div className="bg-white border border-slate-200 rounded-2xl shadow-md overflow-hidden">
+  <div className="relative bg-white border border-slate-200 rounded-2xl shadow-md overflow-hidden opacity-65 pointer-events-none select-none">
+    {/* Header */}
     <div className="px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shadow-sm flex-shrink-0">
@@ -445,8 +479,14 @@ const DefensivePanel: React.FC<ModulesPanelProps> = ({ checked, onToggle }) => (
           </p>
         </div>
       </div>
+
+      {/* Badge Coming Soon */}
+      <span className="px-2.5 py-1 text-[10px] font-sans font-bold tracking-wider text-amber-700 bg-amber-50 border border-amber-200 rounded-md uppercase shadow-sm flex-shrink-0">
+        Coming Soon
+      </span>
     </div>
 
+    {/* Content */}
     <div className="p-5 sm:p-6 bg-white">
       {defensiveModules.map((mod) => (
         <ModuleCheckbox
@@ -462,15 +502,13 @@ const DefensivePanel: React.FC<ModulesPanelProps> = ({ checked, onToggle }) => (
 
 /* ─────────────────────────── Execution Status ─────────────────────────── */
 
-const ExecutionStatus: React.FC = () => (
+const ExecutionStatus: React.FC<{ cooldown: number }> = ({ cooldown }) => (
   <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden flex-1 flex flex-col justify-center font-mono-custom">
     <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none" />
-
     <h4 className="font-mono font-bold text-white mb-5 sm:mb-6 flex items-center gap-2 relative z-10 text-sm sm:text-base">
       <IconClock />
       Execution Status
     </h4>
-
     <div className="space-y-4 sm:space-y-5 relative z-10">
       <div>
         <div className="flex justify-between items-end mb-2">
@@ -488,93 +526,18 @@ const ExecutionStatus: React.FC = () => (
           />
         </div>
       </div>
-
       <div className="flex justify-between items-center bg-slate-950 border border-slate-800 p-3 rounded-xl">
         <span className="text-[10px] sm:text-xs font-mono text-slate-400 uppercase tracking-widest">
           Engine Cooldown
         </span>
-        <span className="font-mono font-bold text-green-400 flex items-center gap-2 text-xs sm:text-sm">
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          READY
-        </span>
-      </div>
-    </div>
-  </div>
-);
-
-/* ─────────────────────────── Terminal ─────────────────────────── */
-
-const Terminal: React.FC = () => (
-  <div className="bg-[#0f172a] rounded-2xl border-2 border-slate-800 shadow-2xl overflow-hidden flex flex-col">
-    {/* Terminal bar */}
-    <div className="bg-[#1e293b] border-b border-slate-800 px-4 sm:px-5 py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-      <div className="flex items-center gap-3">
-        <div className="flex gap-2">
-          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500 border border-red-600" />
-          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500 border border-yellow-600" />
-          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-green-500 border border-green-600" />
-        </div>
-        <span className="ml-1 sm:ml-2 font-mono text-[10px] sm:text-[11px] text-slate-400 tracking-widest uppercase">
-          onyxspire_terminal_v3
-        </span>
-      </div>
-
-      <button className="w-full sm:w-auto bg-sky-500 hover:bg-sky-400 text-slate-950 font-mono font-bold text-xs sm:text-sm px-6 py-3 sm:py-2.5 rounded-lg transition-all shadow-[0_0_15px_rgba(14,165,233,0.3)] flex items-center justify-center gap-2">
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+        <span
+          className={`font-mono font-bold flex items-center gap-2 text-xs sm:text-sm ${cooldown > 0 ? "text-amber-400" : "text-green-400"}`}
         >
-          <IconPlay />
-        </svg>
-        LAUNCH SELECTED MODULES
-      </button>
-    </div>
-
-    {/* Terminal body */}
-    <div className="p-4 sm:p-6 overflow-y-auto font-mono-custom text-[11px] sm:text-sm text-slate-300 leading-relaxed bg-[#020617] h-64 sm:h-full">
-      <div className="text-sky-400 font-bold mb-2">
-        Welcome to Onyxspire CLI. Type &apos;help&apos; for available commands.
-      </div>
-      <div className="text-slate-500 mb-4">
-        &gt; System awaiting instructions...
-      </div>
-
-      <div className="space-y-1.5 opacity-50 break-all">
-        <div>
-          <span className="text-green-400">[+]</span> Target parameter set:{" "}
-          <span className="text-white">beast.com</span>
-        </div>
-        <div>
-          <span className="text-green-400">[+]</span> Modules selected: SQLMAP,
-          WPSCAN
-        </div>
-        <div className="text-slate-500">
-          --- Execution Sequence Triggered ---
-        </div>
-        <div>
-          <span className="text-sky-400">[*]</span> Checking connection to
-          target... <span className="text-green-400">200 OK</span>
-        </div>
-        <div>
-          <span className="text-sky-400">[*]</span> Enumerating common paths...
-        </div>
-      </div>
-
-      <div className="mt-2 flex items-center gap-2">
-        <span className="text-yellow-400">[*]</span> Loading payload databases
-        <span className="flex gap-1">
-          <span className="animate-bounce">.</span>
-          <span className="animate-bounce [animation-delay:0.1s]">.</span>
-          <span className="animate-bounce [animation-delay:0.2s]">.</span>
+          <span
+            className={`w-2 h-2 rounded-full animate-pulse ${cooldown > 0 ? "bg-amber-400" : "bg-green-400"}`}
+          />
+          {cooldown > 0 ? `${cooldown}s LOCK` : "READY"}
         </span>
-      </div>
-
-      <div className="mt-1">
-        <span className="text-sky-500 font-bold">root@engine:~#</span>{" "}
-        {/* cursor-blink → define in global CSS via @utility */}
-        <span className="cursor-blink w-2 sm:w-2.5 h-3 sm:h-4 inline-block bg-slate-300 align-middle ml-1" />
       </div>
     </div>
   </div>
@@ -583,39 +546,362 @@ const Terminal: React.FC = () => (
 /* ─────────────────────────── Main Page ─────────────────────────── */
 
 const ScannerHub: React.FC = () => {
-  // Build initial checked state from defaultChecked
-  const initialChecked: Record<string, boolean> = {};
-  [...offensiveModules, ...defensiveModules].forEach((m) => {
-    if (!m.locked) initialChecked[m.id] = !!m.defaultChecked;
+  const [checked, setChecked] = useState<Record<string, boolean>>({
+    sqlmap: true,    
   });
+  const [target, setTarget] = useState("example.com");
+  const [terminalHtml, setTerminalHtml] = useState(`
+      <div class="text-sky-400 font-bold mb-2">Welcome to Onyxspire CLI v3.2. Type 'help' for available commands.</div>
+      <div class="text-slate-500 mb-4">&gt; System awaiting instructions...</div>
+  `);
+  const [terminalInput, setTerminalInput] = useState("");
+  const [isScanning, setIsScanning] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [dnsVerified, setDnsVerified] = useState<boolean | null>(null);
+  const [cooldown, setCooldown] = useState(0);
 
-  const [checked, setChecked] =
-    useState<Record<string, boolean>>(initialChecked);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [terminalHtml]);
+
+  useEffect(() => {
+    if (cooldown > 0) {
+      const timer = setInterval(() => setCooldown((c) => c - 1), 1000);
+      return () => clearInterval(timer);
+    }
+  }, [cooldown]);
+
+  const addLine = (html: string) => {
+    setTerminalHtml((prev) => prev + html);
+  };
+
+  const colorizeNmapOutput = (text: string): string => {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(
+        /(Starting Nmap .*)/g,
+        '<span class="text-sky-400 font-bold">$1</span>',
+      )
+      .replace(
+        /(Nmap scan report for .*)/g,
+        '<span class="text-white">$1</span>',
+      )
+      .replace(
+        /(Host is up .*)/g,
+        '<span class="text-green-400 font-bold">$1</span>',
+      )
+      .replace(
+        /(\d+\/\w+\s+)(open)(\s+\S+)/g,
+        '$1<span class="text-green-400 font-bold">$2</span>$3',
+      )
+      .replace(
+        /(\d+\/\w+\s+)(filtered)(\s+\S+)/g,
+        '$1<span class="text-yellow-400 font-bold">$2</span>$3',
+      )
+      .replace(
+        /(\d+\/\w+\s+)(closed)(\s+\S+)/g,
+        '$1<span class="text-slate-500 font-bold">$2</span>$3',
+      )
+      .replace(
+        /(Nmap done: .*)/g,
+        '<span class="text-sky-400 font-bold">$1</span>',
+      )
+      .replace(/([*] .*)/g, '<span class="text-amber-400">$1</span>');
+  };
+
+  const colorizeFfufOutput = (text: string): string => {
+    return (
+      text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        // Highlight URL/Target
+        .replace(
+          /(:: Target ::.*)/g,
+          '<span class="text-sky-400 font-bold">$1</span>',
+        )
+        // Highlight successful hits (200 OK)
+        .replace(
+          /(\s+\[Status: 200,.*)/g,
+          '<span class="text-green-400 font-bold">$1</span>',
+        )
+        // Highlight redirects (301/302)
+        .replace(
+          /(\s+\[Status: 301,.*)/g,
+          '<span class="text-yellow-400 font-bold">$1</span>',
+        )
+        .replace(
+          /(\s+\[Status: 302,.*)/g,
+          '<span class="text-yellow-400 font-bold">$1</span>',
+        )
+        // Highlight forbidden (403)
+        .replace(
+          /(\s+\[Status: 403,.*)/g,
+          '<span class="text-red-400 font-bold">$1</span>',
+        )
+        // Highlight the discovered path/fuzz result
+        .replace(
+          /^(\S+)\s+\[Status:/gm,
+          '<span class="text-white font-bold">$1</span> [Status:',
+        )
+    );
+  };
 
   const handleToggle = (id: string) => {
     setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
+    addLine(
+      `<div class="text-slate-500 mt-1">[!] Module ${id.toUpperCase()} ${!checked[id] ? "enabled" : "disabled"}</div>`,
+    );
+  };
+
+  const verifyDNS = async () => {
+    console.log("Verify DNS clicked", { target });
+    if (isVerifying) return;
+    setIsVerifying(true);
+    addLine(
+      `<div class="text-sky-400 mt-2">[*] Resolving target: ${target}...</div>`,
+    );
+
+    try {
+      const response = await fetch("/api/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target, tool: "dig", args: ["+short", target] }),
+      });
+      console.log("DNS verification response status:", response.status);
+      const data = await response.json();
+      if (data.output.trim()) {
+        addLine(
+          `<div class="text-green-400 mt-1">[+] Resolution successful: ${data.output.trim()}</div>`,
+        );
+        setDnsVerified(true);
+      } else {
+        addLine(
+          `<div class="text-red-500 mt-1">[-] Failed to resolve host: ${target}</div>`,
+        );
+        setDnsVerified(false);
+      }
+    } catch (err: any) {
+      console.error("DNS verification error:", err);
+      addLine(
+        `<div class="text-red-500 mt-1">[-] Network error during DNS verification.</div>`,
+      );
+      setDnsVerified(false);
+    }
+    setIsVerifying(false);
+  };
+
+  const launchModules = async () => {
+    console.log("Launch Modules clicked", { target, checked });
+    if (isScanning || cooldown > 0) {
+      console.log("Scan in progress or on cooldown", { isScanning, cooldown });
+      return;
+    }
+    setIsScanning(true);
+
+    addLine(
+      '<div class="text-slate-500 mt-4">--- Execution Sequence Triggered ---</div>',
+    );
+
+    const activeMods = Object.keys(checked).filter((id) => checked[id]);
+
+    if (activeMods.length === 0) {
+      addLine(
+        '<div class="text-yellow-500 mt-2">[!] Warning: No modules selected for execution.</div>',
+      );
+    } else {
+      for (const modId of activeMods) {
+        addLine(
+          `<div class="mt-2 text-sky-400">[*] Launching module: ${modId.toUpperCase()}...</div>`,
+        );
+
+        let tool = modId;
+        let args: string[] = [];
+
+        if (modId === "sqlmap") {
+          args = ["-u", `http://${target}`, "--batch", "--crawl=2"];
+        } else if (modId === "wpscan") {
+          args = ["--url", `http://${target}`, "--enumerate", "vp,vt,u"];
+        } else if (modId === "ffuf") {
+          args = ["-u", `http://${target}/FUZZ`, "-w", "../common.txt"];
+        }
+
+        if (args.length > 0) {
+          try {
+            const response = await fetch("/api/scan", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ target, tool, args }),
+            });
+            const data = await response.json();
+            if (data.error) {
+              addLine(
+                `<div class="text-red-500 mt-1">Error: ${data.error}</div>`,
+              );
+            }
+
+            const colorized =
+              modId === "ffuf"
+                ? colorizeFfufOutput(data.output)
+                : colorizeNmapOutput(data.output);
+            addLine(
+              `<div class="text-slate-400 mt-1 text-[10px] overflow-x-auto p-2 bg-slate-900/50 rounded whitespace-pre">${colorized}</div>`,
+            );
+          } catch (err: any) {
+            addLine(
+              `<div class="text-red-500 mt-1">Connection Error: ${err.message}</div>`,
+            );
+          }
+        } else {
+          addLine(
+            `<div class="text-yellow-500 mt-1">Warning: No configuration for module ${modId}</div>`,
+          );
+        }
+      }
+    }
+
+    addLine('<div class="text-slate-500 mt-4">--- Sequence Complete ---</div>');
+    addLine(
+      `<div class="mt-4"><span class="text-sky-500 font-bold">root@engine:~#</span> <span class="cursor-blink w-2.5 h-4 inline-block bg-slate-300 align-middle ml-1" /></div>`,
+    );
+    setIsScanning(false);
+    setCooldown(30); // 30 seconds cooldown
+  };
+
+  const handleCommand = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!terminalInput.trim()) return;
+
+    const cmd = terminalInput.toLowerCase().trim();
+    setTerminalInput("");
+    addLine(
+      `<div class="mt-2 text-slate-300"><span class="text-sky-500 font-bold">root@engine:~#</span> ${cmd}</div>`,
+    );
+
+    if (cmd === "help") {
+      addLine(`
+        <div class="text-slate-400 mt-2">Available commands:</div>
+        <div class="grid grid-cols-2 gap-x-4 mt-1 text-xs font-mono">
+          <div class="text-sky-400">help</div><div class="text-slate-500">Show this menu</div>
+          <div class="text-sky-400">clear</div><div class="text-slate-500">Clear terminal output</div>
+          <div class="text-sky-400">scan</div><div class="text-slate-500">Launch selected modules</div>
+          <div class="text-sky-400">dns</div><div class="text-slate-500">Verify target DNS</div>
+          <div class="text-sky-400">status</div><div class="text-slate-500">Check engine posture</div>
+          <div class="text-sky-400">target &lt;host&gt;</div><div class="text-slate-500">Update scan target</div>
+        </div>
+      `);
+    } else if (cmd === "clear") {
+      setTerminalHtml("");
+    } else if (cmd === "scan") {
+      launchModules();
+    } else if (cmd === "dns") {
+      verifyDNS();
+    } else if (cmd === "status") {
+      addLine(`
+        <div class="text-slate-400 mt-2">Engine Posture Report:</div>
+        <div class="mt-1 text-xs">
+          <div>Status: <span class="text-green-400">Operational</span></div>
+          <div>Cooldown: <span class="text-amber-400">${cooldown}s</span></div>
+          <div>Target: <span class="text-white">${target}</span></div>
+          <div>Modules: <span class="text-white">${
+            Object.keys(checked)
+              .filter((id) => checked[id])
+              .join(", ")
+              .toUpperCase() || "NONE"
+          }</span></div>
+        </div>
+      `);
+    } else if (cmd.startsWith("target ")) {
+      const newTarget = cmd.split(" ")[1];
+      if (newTarget) {
+        setTarget(newTarget);
+        setDnsVerified(null);
+        addLine(
+          `<div class="text-green-400 mt-1">[+] Target updated to: ${newTarget}</div>`,
+        );
+      }
+    } else {
+      addLine(
+        `<div class="text-red-500 mt-1">Command not found: ${cmd}. Type 'help' for assistance.</div>`,
+      );
+    }
   };
 
   return (
-    <div className="font-sans bg-[#f8fafc] text-slate-800 h-screen overflow-hidden flex selection:bg-sky-500 selection:text-white">
-      <main className="flex-1 flex flex-col h-full relative bg-dashboard-grid z-10 overflow-y-auto overflow-x-hidden">
+    <div className="font-sans bg-[#f8fafc] text-slate-800 flex selection:bg-sky-500 selection:text-white">
+      <main className="flex-1 flex flex-col relative bg-dashboard-grid z-10">
         <Header />
-
         <div className="p-4 sm:p-8 mx-auto w-full space-y-6 sm:space-y-8 pb-20 max-w-7xl">
-          <TargetVector />
-
+          <TargetVector
+            target={target}
+            setTarget={setTarget}
+            onVerify={verifyDNS}
+            isVerifying={isVerifying}
+            dnsVerified={dnsVerified}
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-            {/* Left: Offensive */}
             <OffensivePanel checked={checked} onToggle={handleToggle} />
-
-            {/* Right: Defensive + Status */}
             <div className="flex flex-col gap-6 sm:gap-8">
               <DefensivePanel checked={checked} onToggle={handleToggle} />
-              <ExecutionStatus />
+              <ExecutionStatus cooldown={cooldown} />
             </div>
           </div>
 
-          <Terminal />
+          <div className="bg-[#0f172a] rounded-2xl border-2 border-slate-800 shadow-2xl overflow-hidden flex flex-col">
+            <div className="bg-[#1e293b] border-b border-slate-800 px-4 sm:px-5 py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500 border border-red-600" />
+                  <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500 border border-yellow-600" />
+                  <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-green-500 border border-green-600" />
+                </div>
+                <span className="ml-1 sm:ml-2 font-mono text-[10px] sm:text-[11px] text-slate-400 tracking-widest uppercase">
+                  onyxspire_terminal_v3
+                </span>
+              </div>
+              <button
+                onClick={launchModules}
+                disabled={isScanning || cooldown > 0}
+                className="w-full sm:w-auto bg-sky-500 hover:bg-sky-400 disabled:bg-slate-700 text-slate-950 font-mono font-bold text-xs sm:text-sm px-6 py-3 sm:py-2.5 rounded-lg transition-all shadow-[0_0_15px_rgba(14,165,233,0.3)] flex items-center justify-center gap-2"
+              >
+                <IconPlay />
+                {isScanning
+                  ? "SCANNING..."
+                  : cooldown > 0
+                    ? "LOCKED"
+                    : "LAUNCH SELECTED MODULES"}
+              </button>
+            </div>
+
+            <div
+              onClick={() => inputRef.current?.focus()}
+              className="p-4 sm:p-6 overflow-y-auto font-mono-custom text-[11px] sm:text-sm text-slate-300 leading-relaxed bg-[#020617] h-96 cursor-text"
+            >
+              <div dangerouslySetInnerHTML={{ __html: terminalHtml }} />
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-sky-500 font-bold whitespace-nowrap">
+                  root@engine:~#
+                </span>
+                <form onSubmit={handleCommand} className="flex-1">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    autoFocus
+                    value={terminalInput}
+                    onChange={(e) => setTerminalInput(e.target.value)}
+                    className="w-full bg-transparent border-none outline-none text-slate-300 font-mono focus:ring-0"
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>

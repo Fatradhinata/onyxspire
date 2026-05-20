@@ -224,12 +224,76 @@ export default function DeepPortScanner() {
   const [portRange, setPortRange] = useState("80, 443, 3306, 8000-8010");
   const [selectedProto, setSelectedProto] = useState<ProtoType>("TCP");
   const [activePreset, setActivePreset] = useState<string>("custom");
-  const [allResults] = useState<ScanResult[]>(INITIAL_RESULTS);
+  const [allResults, setAllResults] = useState<ScanResult[]>(INITIAL_RESULTS);
   const [stateFilter, setStateFilter] = useState<StateFilter>("all");
   const [isScanning, setIsScanning] = useState(false);
   const [terminalHtml, setTerminalHtml] = useState("");
 
   const terminalRef = useRef<HTMLDivElement>(null);
+
+  // ── Helper: Calculate Risk ──
+  const calculateRisk = (port: number, state: PortState): RiskLevel => {
+    if (state !== "open") return "none";
+    const highRiskPorts = [21, 22, 23, 3306, 5432, 27017, 6379, 445, 139];
+    const medRiskPorts = [80, 443, 8080, 8443, 25, 110, 143];
+    if (highRiskPorts.includes(port)) return "high";
+    if (medRiskPorts.includes(port)) return "medium";
+    return "low";
+  };
+
+  // ── Helper: Colorize Nmap Output ──
+  const colorizeNmapOutput = (text: string): string => {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/(Starting Nmap .*)/g, '<span class="text-sky-400 font-bold">$1</span>')
+      .replace(/(Nmap scan report for .*)/g, '<span class="text-white">$1</span>')
+      .replace(/(Host is up .*)/g, '<span class="text-green-400 font-bold">$1</span>')
+      .replace(/(\d+\/\w+\s+)(open)(\s+\S+)/g, '$1<span class="text-green-400 font-bold">$2</span>$3')
+      .replace(/(\d+\/\w+\s+)(filtered)(\s+\S+)/g, '$1<span class="text-yellow-400 font-bold">$2</span>$3')
+      .replace(/(\d+\/\w+\s+)(closed)(\s+\S+)/g, '$1<span class="text-slate-500 font-bold">$2</span>$3')
+      .replace(/(Nmap done: .*)/g, '<span class="text-sky-400 font-bold">$1</span>')
+      .replace(/([*] .*)/g, '<span class="text-amber-400">$1</span>');
+  };
+
+  // ── Helper: Parse Nmap Output ──
+  const parseNmapOutput = (output: string): ScanResult[] => {
+    const results: ScanResult[] = [];
+    const lines = output.split("\n");
+    let startParsing = false;
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith("PORT") && trimmed.includes("STATE") && trimmed.includes("SERVICE")) {
+        startParsing = true;
+        continue;
+      }
+      
+      if (startParsing) {
+        if (trimmed === "" || trimmed.includes("Nmap done")) {
+          if (results.length > 0) startParsing = false;
+          continue;
+        }
+
+        // Example: "80/tcp   open  http    Apache httpd 2.4.54"
+        // Regex to capture: port/proto, state, service, version
+        const match = trimmed.match(/^(\d+)\/(\w+)\s+(\w+)\s+(\S+)\s*(.*)$/);
+        if (match) {
+          const [_, port, proto, state, service, version] = match;
+          results.push({
+            port: parseInt(port),
+            proto: proto.toUpperCase(),
+            state: (state === "open" ? "open" : state === "filtered" ? "filtered" : "closed") as PortState,
+            service,
+            version: version || "—",
+            risk: calculateRisk(parseInt(port), state as PortState),
+          });
+        }
+      }
+    }
+    return results;
+  };
 
   // ── Derived ──
   const filteredResults =
@@ -285,78 +349,50 @@ export default function DeepPortScanner() {
   }, [terminalHtml]);
 
   // ── Scan simulation ──
-  function initiateScan() {
-    if (isScanning) return;
+  async function initiateScan() {
+    console.log("Initiate Scan clicked", { targetHost, portRange });
+    if (isScanning) {
+      console.log("Scan already in progress, ignoring click");
+      return;
+    }
     setIsScanning(true);
+    setAllResults([]); // Clear previous results
 
     const host = targetHost || "target";
-    const cmd = commandPreview();
-    const now = new Date().toLocaleString("en-GB", {
-      year: "2-digit",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    const ports = portRange.replace(/\s/g, "") || "1-1024";
+    const args = ["-sS", "-T" + timingValue, "-p", ports, host];
+    if (versionDetect) args.push("-sV");
+    if (osDetect) args.push("-O");
 
-    let html = `<div class="text-slate-600">$ ${cmd}</div>`;
-    setTerminalHtml(html);
+    let currentHtml = `<div class="text-slate-600">$ nmap ${args.join(" ")}</div>`;
+    setTerminalHtml(currentHtml);
 
-    const lines: Array<{ t: number; text: string }> = [
-      {
-        t: 400,
-        text: `<div class="mt-1"><span class="text-sky-400 font-bold">Starting Nmap 7.94 at ${now}</span></div>`,
-      },
-      {
-        t: 900,
-        text: `<div>Nmap scan report for ${host} <span class="text-slate-500">(resolving...)</span></div>`,
-      },
-      {
-        t: 1400,
-        text: `<div>Host is up <span class="text-green-400">(0.038s latency)</span>.</div><br/>`,
-      },
-      {
-        t: 1900,
-        text: `<div class="text-yellow-400">[*] Initiating SYN Stealth Scan...</div>`,
-      },
-      {
-        t: 2400,
-        text: `<div>Discovered open port <span class="text-green-400 font-bold">80/tcp</span> on host</div>`,
-      },
-      {
-        t: 2700,
-        text: `<div>Discovered open port <span class="text-green-400 font-bold">443/tcp</span> on host</div>`,
-      },
-      {
-        t: 3200,
-        text: `<div>Port <span class="text-yellow-400">3306/tcp</span> filtered — firewall dropped probe</div>`,
-      },
-      {
-        t: 3600,
-        text: `<br/><div class="text-slate-400 font-bold">Running service detection (-sV)...</div>`,
-      },
-      {
-        t: 4100,
-        text: `<div>&nbsp;80/tcp&nbsp; → <span class="text-sky-400">Apache httpd 2.4.54</span></div><div>&nbsp;443/tcp → <span class="text-sky-400">nginx 1.23.1 (SSL/TLS)</span></div>`,
-      },
-      {
-        t: 4600,
-        text: `<br/><div class="text-green-400 font-bold">Nmap done: 1 IP address scanned in 4.21 seconds</div>`,
-      },
-    ];
+    try {
+      const response = await fetch("/api/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target: host, tool: "nmap", args }),
+      });
+      const data = await response.json();
+      
+      if (data.error) {
+        currentHtml += `<div class="text-red-500 mt-2">Error: ${data.error}</div>`;
+      }
+      
+      currentHtml += `<div class="text-slate-300 mt-2 font-mono-custom text-xs whitespace-pre">${colorizeNmapOutput(data.output)}</div>`;
+      
+      // Parse results to update UI
+      const parsedResults = parseNmapOutput(data.output);
+      if (parsedResults.length > 0) {
+        setAllResults(parsedResults);
+      }
+    } catch (err: any) {
+      currentHtml += `<div class="text-red-500 mt-2">Connection Error: ${err.message}</div>`;
+    }
 
-    lines.forEach(({ t, text }) => {
-      setTimeout(() => {
-        html += text;
-        setTerminalHtml(html);
-      }, t);
-    });
-
-    setTimeout(() => {
-      html += `<div class="mt-3"><span class="text-sky-500 font-bold drop-shadow-[0_0_5px_rgba(14,165,233,0.5)]">root@engine:~#</span><span class="cursor-blink inline-block w-2.5 h-4 bg-slate-300 align-middle ml-1.5 shadow-[0_0_8px_rgba(255,255,255,0.5)]"></span></div>`;
-      setTerminalHtml(html);
-      setIsScanning(false);
-    }, 5200);
+    currentHtml += `<div class="mt-3"><span class="text-sky-500 font-bold drop-shadow-[0_0_5px_rgba(14,165,233,0.5)]">root@engine:~#</span><span class="cursor-blink inline-block w-2.5 h-4 bg-slate-300 align-middle ml-1.5 shadow-[0_0_8px_rgba(255,255,255,0.5)]"></span></div>`;
+    setTerminalHtml(currentHtml);
+    setIsScanning(false);
   }
 
   // ── Export CSV ──
@@ -395,8 +431,8 @@ export default function DeepPortScanner() {
 
   // ─────────────────────────────────────────────────────────────────────────
   return (
-    <div className="font-inter text-slate-800 h-screen overflow-hidden flex selection:bg-sky-500 selection:text-white bg-slate-50">
-      <main className="flex-1 flex flex-col h-full relative bg-dashboard-grid overflow-y-auto overflow-x-hidden">
+    <div className="font-inter text-slate-800 flex selection:bg-sky-500 selection:text-white bg-slate-50">
+      <main className="flex-1 flex flex-col relative bg-dashboard-grid">
         {/* ── Header ── */}
         <header className="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/80 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40 shadow-sm flex-shrink-0">
           <div className="flex items-center gap-4">
