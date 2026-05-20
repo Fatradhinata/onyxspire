@@ -20,7 +20,12 @@ Tanggal: 20 Mei 2026
    - Implementasi mock logic "Download PDF" (trigger print layout).
    - Penyesuaian struktur data agar mudah dihubungkan ke database.
 
-4. Global & Sidebar:
+4. Scanner Hub (/scanner):
+   - Pembersihan daftar Offensive Modules (menghapus redundansi SQLMAP karena sudah punya halaman sendiri).
+   - Penyesuaian default state checkbox (WPSCAN aktif secara default).
+   - Update target placeholder menjadi example.com untuk konsistensi.
+
+5. Global & Sidebar:
    - Penghapusan total modul "Asset Management" (folder app/(dashboard)/assets dihapus).
    - Update Sidebar.tsx untuk membuang link Asset Management dan merapikan navigasi.
    - Pembuatan komponen reusable ProductTour.tsx di folder /components.
