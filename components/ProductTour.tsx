@@ -68,6 +68,24 @@ export function ProductTour({ steps, onComplete, isVisible }: ProductTourProps) 
     const gap = 20;
     const { top, left, width, height, bottom, right } = spotlightRect;
 
+    const isMobile = window.innerWidth < 768; // simple mobile check
+
+    // Fallback for mobile devices
+    if (isMobile) {
+      let mobileTop = bottom + gap;
+      // If bottom placement goes offscreen, place it above
+      if (mobileTop + 200 > window.innerHeight) {
+         mobileTop = Math.max(10, top - gap - 200); 
+      }
+      return { 
+        top: mobileTop, 
+        left: "50%", 
+        transform: "translateX(-50%)",
+        width: "90%",
+        maxWidth: "320px" 
+      };
+    }
+
     switch (currentStep.placement) {
       case "top":
         return { bottom: window.innerHeight - top + gap, left: left + width / 2, transform: "translateX(-50%)" };
