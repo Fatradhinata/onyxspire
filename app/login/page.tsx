@@ -1,22 +1,33 @@
 "use client"; // Wajib pake ini buat interaksi state
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   // 1. Setup State
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   // 2. Handle Submit Form
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Mencegah reload page
-    
-    setIsLoading(true);
 
-    // Simulasi loading 2 detik, abis itu balik normal
+    setIsLoading(true);
+    setError("");
+
+    // Simulasi loading 1.5 detik
     setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+      if (identifier === "elangnoah" && password === "666ELANG666") {
+        router.push("/dashboard");
+      } else {
+        setError("Invalid identifier or access key.");
+        setIsLoading(false);
+      }
+    }, 1500);
   };
 
   return (
@@ -26,7 +37,7 @@ export default function Login() {
       <div className="absolute top-[-10%] left-[-5%] w-[40rem] h-[40rem] bg-sky-200/50 rounded-full blur-[100px] pointer-events-none z-0"></div>
       <div className="absolute bottom-[-20%] right-[-10%] w-[50rem] h-[50rem] bg-indigo-200/40 rounded-full blur-[120px] pointer-events-none z-0"></div>
       <div className="scan-line pointer-events-none" />
-      
+
       {/* SVG Background Lines */}
       <svg className="absolute inset-0 w-full h-full z-0 opacity-40 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -67,7 +78,7 @@ export default function Login() {
           <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sky-500" />
           <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-500" />
           <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-500" />
-          
+
           <div className="text-center mb-10">
             <div className="flex justify-center mb-4">
               <div className="w-14 h-14 bg-white border border-slate-200 flex items-center justify-center shadow-lg shadow-sky-500/20 transform rotate-45">
@@ -84,9 +95,14 @@ export default function Login() {
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
-            {/* Input Email */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 text-[10px] font-mono-custom font-bold uppercase tracking-wider rounded-lg animate-shake">
+                &gt; ERROR: {error}
+              </div>
+            )}
+            {/* Input Email/Username */}
             <div className="space-y-2">
-              <label htmlFor="email" className="block font-mono-custom text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <label htmlFor="identifier" className="block font-mono-custom text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                 Identifier <span className="text-sky-500">*</span>
               </label>
               <div className="relative group">
@@ -95,7 +111,15 @@ export default function Login() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
-                <input type="email" id="email" placeholder="admin@onyxspire.com" className="w-full bg-white border border-slate-200 text-slate-900 text-sm pl-10 pr-4 py-3 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all placeholder-slate-400 font-mono-custom shadow-sm" required />
+                <input 
+                  type="text" 
+                  id="identifier" 
+                  placeholder="Username or Email" 
+                  className="w-full bg-white border border-slate-200 text-slate-900 text-sm pl-10 pr-4 py-3 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all placeholder-slate-400 font-mono-custom shadow-sm" 
+                  required 
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                />
               </div>
             </div>
 
@@ -121,8 +145,10 @@ export default function Login() {
                   placeholder="••••••••••••"
                   className="w-full bg-white border border-slate-200 text-slate-900 text-sm pl-10 pr-10 py-3 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all placeholder-slate-400 font-mono-custom shadow-sm tracking-widest"
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-                
+
                 {/* Toggle Password Visibility */}
                 <button
                   type="button"
@@ -157,7 +183,7 @@ export default function Login() {
                 {!isLoading && (
                   <div className="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none"></div>
                 )}
-                
+
                 {isLoading ? (
                   <span className="flex items-center gap-2">
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -174,7 +200,7 @@ export default function Login() {
               </button>
             </div>
           </form>
-          
+
           <div className="mt-8 text-center border-t border-slate-200 pt-6">
             <p className="font-mono-custom text-xs text-slate-500">
               Clearance missing?
