@@ -13,13 +13,6 @@ export default function HomePage() {
 
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 pt-32 md:pt-40 pb-20 text-center">
         {/* Hero Section */}
-        <div className="mb-8 px-4 py-1.5 rounded-full border border-sky-200 bg-sky-50/50 backdrop-blur-sm shadow-sm inline-flex items-center gap-2">
-          <span className="flex h-2 w-2 rounded-full bg-sky-500 animate-ping absolute"></span>
-          <span className="relative flex h-2 w-2 rounded-full bg-sky-500"></span>
-          <span className="text-xs font-mono-custom font-bold text-sky-700 tracking-wider">
-            SYSTEM ONLINE & READY TO SCAN
-          </span>
-        </div>
 
         <h1 className="font-amarillo text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-slate-900 drop-shadow-sm mb-6 leading-tight">
           YOUR WEBSITE, <br />
