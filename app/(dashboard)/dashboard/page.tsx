@@ -152,47 +152,47 @@ export default function CentralCommand() {
     <div className="font-sans bg-[#f8fafc] text-slate-800 h-screen overflow-hidden flex selection:bg-sky-500 selection:text-white">
       <main className="flex-1 flex flex-col h-full relative bg-dashboard-grid z-10">
         {/* Header */}
-        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30 shadow-sm flex-shrink-0">
+        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 pl-16 pr-4 md:px-8 flex items-center justify-between sticky top-0 z-30 shadow-sm flex-shrink-0">
           <div>
-            <h2 className="font-mono font-bold text-xl text-slate-800 tracking-tight">Command Center</h2>
-            <p className="text-xs font-mono text-slate-500 mt-0.5 uppercase tracking-widest">Global Security Posture</p>
+            <h2 className="font-mono font-bold text-lg md:text-xl text-slate-800 tracking-tight">Command Center</h2>
+            <p className="text-[10px] font-mono text-slate-500 mt-0.5 uppercase tracking-widest">Global Security Posture</p>
           </div>
 
           <div className="flex items-center gap-4">
             <Link
               href="/settings"
-              className="bg-slate-900 hover:bg-slate-800 text-white p-2.5 rounded-xl transition-all inline-flex items-center justify-center shadow-lg active:scale-95"
+              className="bg-slate-900 hover:bg-slate-800 text-white p-2 md:p-2.5 rounded-xl transition-all inline-flex items-center justify-center shadow-lg active:scale-95"
             >
               <IconSettings />
             </Link>
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-8 terminal-scroll">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 xl:p-8 terminal-scroll">
           <div className="max-w-7xl mx-auto space-y-6 pb-20">
             
             {/* ── Compact Global Overview Widget ── */}
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-1 shadow-2xl relative overflow-hidden group">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl md:rounded-3xl p-0.5 md:p-1 shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
               
-              <div className="bg-slate-950 rounded-[1.4rem] p-6 md:p-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center border border-slate-800 shadow-inner relative">
+              <div className="bg-slate-950 rounded-[1.2rem] md:rounded-[1.4rem] p-5 md:p-8 relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6 text-center xl:text-left">
+                <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+                  <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center border border-slate-800 shadow-inner relative flex-shrink-0">
                     <div className="absolute inset-0 border border-sky-500/20 rounded-2xl animate-ping-radar" />
                     <svg className="w-8 h-8 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <div className="text-left">
-                    <h3 className="font-amarillo text-2xl text-white tracking-widest mb-1 uppercase">SYSTEM <span className="text-sky-500">READY</span></h3>
+                  <div>
+                    <h3 className="font-amarillo text-xl md:text-2xl text-white tracking-widest mb-1 uppercase">SYSTEM <span className="text-sky-500">READY</span></h3>
                     <p className="text-slate-500 font-mono-custom text-[10px] uppercase tracking-[0.2em]">All monitoring nodes currently operational.</p>
                   </div>
                 </div>
 
-                <div className="flex gap-4 items-center">
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-center justify-center w-full xl:w-auto">
                   <Link 
                     href="/reports" 
-                    className="px-6 py-3 bg-slate-800 border border-slate-700 text-white font-mono-custom font-bold text-[11px] rounded-xl hover:bg-slate-700 hover:border-slate-600 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-xl"
+                    className="w-full sm:w-auto px-6 py-3 bg-slate-800 border border-slate-700 text-white font-mono-custom font-bold text-[11px] rounded-xl hover:bg-slate-700 hover:border-slate-600 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-xl"
                   >
                     <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -201,7 +201,7 @@ export default function CentralCommand() {
                   </Link>
                   <Link 
                     href="/scanner" 
-                    className="px-6 py-3 bg-sky-500 hover:bg-sky-400 text-slate-950 font-mono-custom font-bold text-[11px] rounded-xl transition-all shadow-[0_0_15px_rgba(14,165,233,0.3)] flex items-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 bg-sky-500 hover:bg-sky-400 text-slate-950 font-mono-custom font-bold text-[11px] rounded-xl transition-all shadow-[0_0_15px_rgba(14,165,233,0.3)] flex items-center justify-center gap-2 active:scale-95"
                   >
                     LAUNCH SCAN
                   </Link>
@@ -209,16 +209,17 @@ export default function CentralCommand() {
               </div>
             </div>
 
-            {/* ── Monitored Domains Table ── */}
+            {/* ── Monitored Domains ── */}
             <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
-              <div className="px-6 py-5 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
-                <div className="flex items-center gap-4">
-                  <h3 className="font-mono font-bold text-lg text-slate-800">Monitored Domains</h3>
-                  <span className="bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded text-[9px] font-bold font-mono tracking-widest uppercase">3 Registered Nodes</span>
+              <div className="px-4 md:px-6 py-4 md:py-5 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-slate-50/50">
+                <div className="flex items-center gap-3 md:gap-4">
+                  <h3 className="font-mono font-bold text-base md:text-lg text-slate-800 uppercase tracking-tight">Monitored Domains</h3>
+                  <span className="bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded text-[8px] md:text-[9px] font-bold font-mono tracking-widest uppercase shrink-0">3 Registered Nodes</span>
                 </div>
               </div>
 
-              <div className="overflow-x-auto">
+              {/* Desktop Table */}
+              <div className="hidden xl:block overflow-x-auto">
                 <table className="w-full text-left border-collapse whitespace-nowrap">
                   <thead>
                     <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
@@ -294,7 +295,77 @@ export default function CentralCommand() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile & Tablet Card List */}
+              <div className="xl:hidden divide-y divide-slate-100">
+                {ASSETS.map((asset) => (
+                  <div key={asset.id} className="p-4 sm:p-6 space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <GlobeIcon className="w-4 h-4 text-slate-400" />
+                          <span className="font-bold text-slate-900 font-mono text-sm">{asset.domain}</span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 font-mono">{asset.ip}</p>
+                      </div>
+                      <StatusBadge status={asset.status} />
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                      <div className="space-y-1 w-full sm:flex-1">
+                        <p className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider">Posture Score</p>
+                        <ScoreBar score={asset.score} />
+                      </div>
+                      <div className="text-left sm:text-right w-full sm:w-auto">
+                        <p className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider">Last Audit</p>
+                        <p className="text-[10px] font-mono text-slate-500 mt-1">{asset.lastAudit}</p>
+                      </div>
+                    </div>
+
+                    <button 
+                      onClick={() => toggleExpand(asset.id)}
+                      className="w-full py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-mono-custom font-bold text-slate-600 uppercase tracking-widest flex items-center justify-center gap-2 active:bg-slate-100"
+                    >
+                      {expandedRow === asset.id ? "Hide Execution Logs" : "Show Execution Logs"}
+                      <svg className={`w-3 h-3 transition-transform ${expandedRow === asset.id ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {expandedRow === asset.id && (
+                      <div className="pt-2 space-y-3">
+                        <h4 className="font-mono text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                          <svg className="w-3.5 h-3.5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          Execution Logs
+                        </h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3">
+                          {asset.history.map(h => (
+                            <div key={h.id} className="bg-slate-50 border border-slate-100 rounded-xl p-3 space-y-2">
+                              <div className="flex justify-between items-center">
+                                <span className="font-bold text-slate-700 text-[11px]">{h.tool}</span>
+                                <SeverityBadge severity={h.severity} />
+                              </div>
+                              <div className="flex justify-between items-center text-[10px]">
+                                <span className="text-slate-500 font-mono">{h.timestamp}</span>
+                                <span className="text-slate-500">{h.status}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="pt-1">
+                           <Link href="/reports" className="text-[10px] font-mono-custom font-bold text-sky-600 hover:underline uppercase tracking-widest flex justify-center">
+                              Full Report Details →
+                           </Link>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
+
 
           </div>
         </div>
