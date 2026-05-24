@@ -112,20 +112,20 @@ export default function SubscriptionBilling() {
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
         {/* ── Header ── */}
-        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30 shadow-sm flex-shrink-0">
+        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 pl-20 pr-4 md:px-8 flex items-center justify-between sticky top-0 z-30 shadow-sm flex-shrink-0">
           <div>
             <h2
-              className="font-bold text-xl text-slate-800 tracking-tight"
+              className="font-bold text-lg md:text-xl text-slate-800 tracking-tight"
               style={mono}
             >
               Access Control &amp; Billing
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5" style={mono}>
+            <p className="text-[10px] md:text-xs text-slate-500 mt-0.5" style={mono}>
               Manage operational quotas and financial configurations.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3">
             <span
               className="text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-200 bg-slate-50 px-3 py-1.5 rounded-lg flex items-center gap-2"
               style={mono}
@@ -136,13 +136,13 @@ export default function SubscriptionBilling() {
           </div>
         </header>
 
-        <div className="p-8 max-w-[90rem] mx-auto w-full space-y-6 pb-20">
+        <div className="p-4 md:p-6 xl:p-8 max-w-[90rem] mx-auto w-full space-y-6 pb-20">
           {/* ── Directive Banner ── */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-md relative overflow-hidden mb-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md relative overflow-hidden mb-6">
             <div className="absolute left-0 top-0 w-1.5 h-full bg-sky-500 shadow-[0_0_15px_rgba(14,165,233,0.6)]" />
             <div className="absolute right-0 top-0 w-64 h-64 bg-sky-500/10 rounded-full filter blur-[60px] pointer-events-none" />
 
-            <div className="relative z-10 flex flex-col md:flex-row items-start gap-6">
+            <div className="relative z-10 flex flex-col lg:flex-row items-start gap-6">
               <div className="w-14 h-14 rounded-xl bg-slate-950 border border-slate-700 text-sky-400 flex items-center justify-center flex-shrink-0 shadow-inner">
                 <svg
                   className="w-7 h-7"
@@ -161,12 +161,12 @@ export default function SubscriptionBilling() {
 
               <div className="flex-1">
                 <h3
-                  className="font-bold text-white text-sm uppercase tracking-widest mb-2 flex items-center gap-3"
+                  className="font-bold text-white text-xs sm:text-sm uppercase tracking-widest mb-2 flex items-center gap-3"
                   style={mono}
                 >
                   Financial &amp; Access Control Directive
                 </h3>
-                <p className="text-sm text-slate-400 leading-relaxed mb-4 max-w-4xl">
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4 max-w-4xl">
                   This module governs your authorization levels across the
                   Onyxspire ecosystem. As a{" "}
                   <span className="text-sky-400 font-bold">PRO TIER</span>{" "}
@@ -175,7 +175,7 @@ export default function SubscriptionBilling() {
                   closely to prevent workflow interruptions.
                 </p>
 
-                <div className="flex gap-4 text-xs" style={mono}>
+                <div className="flex flex-wrap gap-3 sm:gap-4 text-[10px] sm:text-xs" style={mono}>
                   <span className="flex items-center gap-2 text-slate-500 bg-slate-950 px-3 py-1.5 rounded border border-slate-800">
                     <svg
                       className="w-3.5 h-3.5 text-green-400"
@@ -190,7 +190,7 @@ export default function SubscriptionBilling() {
                         d="M5 13l4 4L19 7"
                       />
                     </svg>
-                    Secure Payment Gateway
+                    Secure Gateway
                   </span>
                   <span className="flex items-center gap-2 text-slate-500 bg-slate-950 px-3 py-1.5 rounded border border-slate-800">
                     <svg
@@ -206,7 +206,7 @@ export default function SubscriptionBilling() {
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                       />
                     </svg>
-                    Real-time Quota Sync
+                    Real-time Quota
                   </span>
                 </div>
               </div>
@@ -214,9 +214,9 @@ export default function SubscriptionBilling() {
           </div>
 
           {/* ── Three Cards ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {/* Card 1 — Active License */}
-            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col relative overflow-hidden">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col relative overflow-hidden">
               <div className="absolute right-0 top-0 w-32 h-32 bg-sky-50 rounded-bl-[100px] -z-0" />
 
               <div className="flex justify-between items-start mb-6 relative z-10">
@@ -245,7 +245,7 @@ export default function SubscriptionBilling() {
               <div className="mb-8 relative z-10">
                 <div className="flex items-end gap-1">
                   <span
-                    className="text-5xl font-bold text-slate-900"
+                    className="text-4xl sm:text-5xl font-bold text-slate-900"
                     style={mono}
                   >
                     $69
@@ -267,13 +267,13 @@ export default function SubscriptionBilling() {
 
               <div className="mt-auto flex gap-3 relative z-10">
                 <button
-                  className="flex-1 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs py-3 rounded transition-colors shadow-sm text-center"
+                  className="flex-1 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-[10px] sm:text-xs py-3 rounded transition-colors shadow-sm text-center"
                   style={mono}
                 >
                   Manage Plan
                 </button>
                 <button
-                  className="flex-1 bg-slate-900 hover:bg-sky-600 text-white font-bold text-xs py-3 rounded transition-colors shadow-md text-center flex items-center justify-center gap-2"
+                  className="flex-1 bg-slate-900 hover:bg-sky-600 text-white font-bold text-[10px] sm:text-xs py-3 rounded transition-colors shadow-md text-center flex items-center justify-center gap-2"
                   style={mono}
                 >
                   <svg
@@ -295,7 +295,7 @@ export default function SubscriptionBilling() {
             </div>
 
             {/* Card 2 — Execution Quota */}
-            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 rounded bg-sky-50 text-sky-600 flex items-center justify-center border border-sky-100">
                   <svg
@@ -337,7 +337,7 @@ export default function SubscriptionBilling() {
                     8<span className="text-slate-400 text-xs">/10</span>
                   </span>
                 </div>
-                <div className="w-full bg-slate-100 h-2 border border-slate-200">
+                <div className="w-full bg-slate-100 h-2 border border-slate-200 rounded-full overflow-hidden">
                   <div
                     className="bg-sky-500 h-full shadow-[0_0_5px_rgba(14,165,233,0.5)]"
                     style={{ width: "80%" }}
@@ -352,7 +352,7 @@ export default function SubscriptionBilling() {
               </div>
 
               <div className="mt-auto border-t border-slate-100 pt-4">
-                <div className="flex justify-between items-center bg-slate-50 border border-slate-200 p-3">
+                <div className="flex justify-between items-center bg-slate-50 border border-slate-200 p-3 rounded-lg">
                   <span
                     className="text-[10px] font-bold text-slate-500 uppercase tracking-widest"
                     style={mono}
@@ -360,10 +360,10 @@ export default function SubscriptionBilling() {
                     Engine Cooldown
                   </span>
                   <span
-                    className="font-bold text-green-600 flex items-center gap-2 text-xs"
+                    className="font-bold text-green-600 flex items-center gap-2 text-[10px] sm:text-xs"
                     style={mono}
                   >
-                    <span className="w-2 h-2 bg-green-500 rounded-none shadow-[0_0_5px_#22c55e]" />
+                    <span className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_5px_#22c55e]" />
                     3 MINS (READY)
                   </span>
                 </div>
@@ -371,7 +371,7 @@ export default function SubscriptionBilling() {
             </div>
 
             {/* Card 3 — Payment Method */}
-            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col md:col-span-2 xl:col-span-1">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <p
@@ -405,7 +405,7 @@ export default function SubscriptionBilling() {
               </div>
 
               {/* Credit Card Visual */}
-              <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 relative overflow-hidden shadow-md">
+              <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 relative overflow-hidden shadow-md max-w-sm w-full mx-auto md:mx-0">
                 <div className="flex justify-between items-center mb-6 relative z-10">
                   <div className="w-8 h-6 bg-yellow-600/80 rounded flex items-center justify-center border border-yellow-500/50">
                     <div className="w-5 h-3 border border-yellow-800/50 rounded-sm" />
@@ -418,19 +418,19 @@ export default function SubscriptionBilling() {
                   </span>
                 </div>
                 <div
-                  className="text-white text-lg tracking-[0.2em] mb-4 relative z-10 drop-shadow-md"
+                  className="text-white text-base sm:text-lg tracking-[0.2em] mb-4 relative z-10 drop-shadow-md text-center"
                   style={mono}
                 >
                   **** **** **** 4242
                 </div>
                 <div className="flex justify-between items-end relative z-10">
                   <p
-                    className="text-[10px] text-slate-400 uppercase tracking-widest"
+                    className="text-[9px] sm:text-[10px] text-slate-400 uppercase tracking-widest"
                     style={mono}
                   >
-                    Fines Need Hug
+                    elangnoah
                   </p>
-                  <p className="text-[10px] text-slate-400" style={mono}>
+                  <p className="text-[9px] sm:text-[10px] text-slate-400" style={mono}>
                     12/28
                   </p>
                 </div>
@@ -438,7 +438,7 @@ export default function SubscriptionBilling() {
               </div>
 
               <p
-                className="text-[10px] text-slate-400 mt-4 flex items-center gap-1.5"
+                className="text-[9px] sm:text-[10px] text-slate-400 mt-4 flex items-center gap-1.5"
                 style={mono}
               >
                 <LockIcon className="w-3 h-3 text-sky-500" />
@@ -448,18 +448,18 @@ export default function SubscriptionBilling() {
           </div>
 
           {/* ── Transaction Ledger ── */}
-          <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden mt-8">
-            <div className="px-6 py-5 border-b border-slate-200 bg-slate-50/50 flex justify-between items-center">
+          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mt-8">
+            <div className="px-4 sm:px-6 py-5 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <h3 className="font-bold text-lg text-slate-800" style={mono}>
                   Transaction Ledger
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5">
                   Downloadable compliance invoices for your financial audits.
                 </p>
               </div>
               <button
-                className="bg-white border border-slate-300 text-slate-600 hover:text-sky-600 hover:border-sky-300 font-bold text-[10px] uppercase tracking-widest px-3 py-1.5 rounded transition-all shadow-sm flex items-center gap-2"
+                className="w-full sm:w-auto bg-white border border-slate-300 text-slate-600 hover:text-sky-600 hover:border-sky-300 font-bold text-[10px] uppercase tracking-widest px-3 py-2 rounded-lg transition-all shadow-sm flex items-center justify-center gap-2"
                 style={mono}
               >
                 <svg
@@ -475,12 +475,12 @@ export default function SubscriptionBilling() {
                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                   />
                 </svg>
-                Export All CSV
+                Export CSV
               </button>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse" style={mono}>
+            <div className="overflow-x-auto terminal-scroll">
+              <table className="w-full text-left border-collapse whitespace-nowrap min-w-[700px]" style={mono}>
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                     <th className="py-4 px-6 font-normal border-r border-slate-200 w-32">
@@ -501,13 +501,13 @@ export default function SubscriptionBilling() {
                     <th className="py-4 px-6 font-normal text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="text-sm text-slate-700 divide-y divide-slate-100">
+                <tbody className="text-xs sm:text-sm text-slate-700 divide-y divide-slate-100">
                   {INVOICES.map((inv) => (
                     <tr
                       key={inv.id}
                       className="hover:bg-slate-50 transition-colors group"
                     >
-                      <td className="py-4 px-6 text-slate-500 text-xs">
+                      <td className="py-4 px-6 text-slate-500 text-[10px] sm:text-xs">
                         {inv.date}
                       </td>
                       <td className="py-4 px-6 font-bold text-slate-800">
