@@ -1,26 +1,29 @@
 "use client";
-
 import React, { useState, useEffect, useCallback } from "react";
 
 export default function UserSettingsPage() {
   const [activeTab, setActiveTab] = useState<
     "identity" | "security" | "api" | "notif"
   >("identity");
+
   const [password, setPassword] = useState("");
   const [passwordStrength, setPasswordStrength] = useState({
     level: 0,
     text: "Awaiting input",
     color: "var(--text-3)",
   });
+
   const [revealedKeys, setRevealedKeys] = useState<{
     [key: string]: { visible: boolean; timer: number | null };
   }>({
     key1: { visible: false, timer: null },
     key2: { visible: false, timer: null },
   });
+
   const [copyFeedback, setCopyFeedback] = useState<{ [key: string]: boolean }>(
     {},
   );
+
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -76,6 +79,7 @@ export default function UserSettingsPage() {
       });
       return;
     }
+
     let score = 0;
     if (password.length > 5) score++;
     if (password.length > 8 && /[0-9]/.test(password)) score++;
@@ -86,6 +90,7 @@ export default function UserSettingsPage() {
       { text: "ACCEPTABLE", color: "text-amber-500" },
       { text: "HARDENED", color: "text-green-500" },
     ];
+
     const idx = Math.max(0, score - 1);
     setPasswordStrength({
       level: score || 1,
@@ -178,9 +183,9 @@ export default function UserSettingsPage() {
 
   return (
     <>
-
-      <div className="font-[var(--font-inter)] bg-[#f8fafc] text-slate-800 h-screen overflow-hidden flex">
-        <main className="flex-1 flex flex-col h-full relative overflow-hidden">
+      <div className="font-[var(--font-inter)] bg-[#f8fafc] text-slate-800 h-screen overflow-hidden flex flex-col md:flex-row">
+        {/* Main Content Area */}
+        <main className="flex-1 flex flex-col h-full relative overflow-hidden min-w-0">
           {/* Background Grid */}
           <div
             className="absolute inset-0 pointer-events-none z-0"
@@ -193,20 +198,20 @@ export default function UserSettingsPage() {
             }}
           />
 
-          {/* Header */}
-          <header className="relative z-10 h-16 bg-[#f8fafc]/88 backdrop-blur-[16px] border-b border-slate-200 px-8 flex items-center justify-between flex-shrink-0">
+          {/* Header - Added pl-16 for mobile to avoid hamburger overlap */}
+          <header className="relative z-10 h-16 bg-[#f8fafc]/88 backdrop-blur-[16px] border-b border-slate-200 pl-16 pr-4 md:px-8 flex items-center justify-between flex-shrink-0">
             <div>
-              <div className="font-amarillo text-[0.95rem] font-bold text-slate-900">
+              <div className="font-amarillo text-[0.85rem] sm:text-[0.95rem] font-bold text-slate-900 truncate">
                 User Settings & Security Profile
               </div>
-              <div className="font-mono-custom text-[11px] text-slate-400 uppercase tracking-[0.1em] mt-0.5">
+              <div className="font-mono-custom text-[9px] sm:text-[11px] text-slate-400 uppercase tracking-[0.1em] mt-0.5 truncate">
                 Identity Management / Access Control
               </div>
             </div>
-            <div className="flex items-center gap-2.5">
-              <button className="w-[34px] h-[34px] bg-white border border-slate-200 rounded-lg flex items-center justify-center cursor-pointer text-slate-400 hover:border-sky-500 hover:text-sky-500 transition-colors">
+            <div className="flex items-center gap-2 sm:gap-2.5 ml-2">
+              <button className="w-[30px] h-[30px] sm:w-[34px] sm:h-[34px] bg-white border border-slate-200 rounded-lg flex items-center justify-center cursor-pointer text-slate-400 hover:border-sky-500 hover:text-sky-500 transition-colors shrink-0">
                 <svg
-                  className="w-[15px] h-[15px]"
+                  className="w-[14px] h-[14px] sm:w-[15px] sm:h-[15px]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -219,9 +224,9 @@ export default function UserSettingsPage() {
                   />
                 </svg>
               </button>
-              <button className="w-[34px] h-[34px] bg-white border border-slate-200 rounded-lg flex items-center justify-center cursor-pointer text-slate-400 hover:border-sky-500 hover:text-sky-500 transition-colors">
+              <button className="w-[30px] h-[30px] sm:w-[34px] sm:h-[34px] bg-white border border-slate-200 rounded-lg flex items-center justify-center cursor-pointer text-slate-400 hover:border-sky-500 hover:text-sky-500 transition-colors shrink-0">
                 <svg
-                  className="w-[15px] h-[15px]"
+                  className="w-[14px] h-[14px] sm:w-[15px] sm:h-[15px]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -242,42 +247,40 @@ export default function UserSettingsPage() {
             </div>
           </header>
 
-          {/* Content */}
-          <div className="relative z-10 flex-1 overflow-y-auto p-7">
+          {/* Content Wrapper */}
+          <div className="relative z-10 flex-1 overflow-y-auto p-4 sm:p-7">
             {/* Profile Hero */}
-            <div className="bg-white border border-slate-200 rounded-[1.25rem] p-6 flex items-center gap-5 mb-5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] relative overflow-hidden">
+            <div className="bg-white border border-slate-200 rounded-[1.25rem] p-4 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 mb-5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] relative overflow-hidden text-center sm:text-left">
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-sky-500 to-indigo-500" />
               <div className="w-[60px] h-[60px] rounded-[1rem] bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center font-mono-custom text-[1.1rem] font-bold text-white flex-shrink-0 shadow-[0_0_0_3px_rgba(14,165,233,0.2),0_4px_16px_rgba(14,165,233,0.25)]">
                 FN
               </div>
-              <div className="flex-1">
+              <div className="flex-1 w-full">
                 <div className="font-mono-custom text-[1.05rem] font-bold text-slate-900">
-                  Fines Need Hug
+                  elangnoah
                 </div>
                 <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
-                  admin@tenant.com
+                  elangnoah87@gmail.com
                 </div>
-                <div className="flex gap-2 mt-2.5 flex-wrap">
-                  <span className="font-mono-custom text-[11px] font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-600 border border-sky-200 uppercase tracking-[0.08em]">
+                <div className="flex gap-2 mt-3 flex-wrap justify-center sm:justify-start">
+                  <span className="font-mono-custom text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-600 border border-sky-200 uppercase tracking-[0.08em]">
                     Pro Tier
                   </span>
-                  <span className="font-mono-custom text-[11px] font-bold px-2 py-0.5 rounded bg-green-100 text-green-600 border border-green-200 uppercase tracking-[0.08em]">
+                  <span className="font-mono-custom text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded bg-green-100 text-green-600 border border-green-200 uppercase tracking-[0.08em]">
                     ● Active
                   </span>
-                  <span className="font-mono-custom text-[11px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-600 border border-indigo-200 uppercase tracking-[0.08em]">
+                  <span className="font-mono-custom text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-600 border border-indigo-200 uppercase tracking-[0.08em]">
                     Developer
                   </span>
                 </div>
               </div>
-              <div className="font-mono-custom text-[11px] text-slate-400 uppercase tracking-[0.08em] text-right">
-                Member since
-                <br />
-                Mar 2025
+              <div className="font-mono-custom text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-[0.08em] sm:text-right mt-2 sm:mt-0">
+                Member since <br className="hidden sm:block" /> Mar 2025
               </div>
             </div>
 
-            {/* Tabs */}
-            <div className="flex gap-1 mb-5 bg-white border border-slate-200 rounded-[0.875rem] p-1.5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+            {/* Tabs - Added overflow for mobile swipe */}
+            <div className="flex gap-1 mb-5 bg-white border border-slate-200 rounded-[0.875rem] p-1.5 shadow-[0_1px_3px_rgba(15,23,42,0.04)] overflow-x-auto hide-scrollbar">
               {[
                 {
                   id: "identity",
@@ -303,14 +306,14 @@ export default function UserSettingsPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                  className={`flex-1 py-2.5 px-2 font-mono-custom text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] cursor-pointer transition-colors flex items-center justify-center gap-1 ${
+                  className={`flex-1 min-w-max py-2.5 px-3 sm:px-2 font-mono-custom text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] cursor-pointer transition-colors flex items-center justify-center gap-1.5 ${
                     activeTab === tab.id
                       ? "bg-slate-900 text-white"
                       : "text-slate-400 hover:bg-slate-100 hover:text-slate-600"
                   }`}
                 >
                   <svg
-                    className="w-[13px] h-[13px]"
+                    className="w-[13px] h-[13px] shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -330,42 +333,42 @@ export default function UserSettingsPage() {
             {/* TAB 1: Personal Identity */}
             {activeTab === "identity" && (
               <div className="animate-[fadeIn_0.22s_ease]">
-                <div className="grid grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
                   {/* Operational Identity */}
-                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
+                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4 lg:mb-0">
                     <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
                       <div>
                         <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                           Operational Identity
                         </div>
-                        <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                           Update your public-facing credentials
                         </div>
                       </div>
                     </div>
-                    <div className="p-5">
+                    <div className="p-4 sm:p-5">
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Full Name
                         </label>
                         <input
                           className="w-full bg-slate-100 border border-slate-200 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-slate-900 outline-none focus:border-sky-500 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.1)] transition-colors"
                           type="text"
-                          defaultValue="Fines Need Hug"
+                          defaultValue="elangnoah"
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Username / Handle
                         </label>
                         <input
                           className="w-full bg-slate-100 border border-slate-200 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-slate-900 outline-none focus:border-sky-500 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.1)] transition-colors"
                           type="text"
-                          defaultValue="@finesneedhug"
+                          defaultValue="@elangnoah"
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Role Classification
                         </label>
                         <input
@@ -374,11 +377,11 @@ export default function UserSettingsPage() {
                           defaultValue="Developer"
                         />
                       </div>
-                      <div className="flex gap-2.5 mt-5">
-                        <button className="inline-flex items-center gap-1 font-mono-custom text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-4 py-2.5 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)]">
+                      <div className="flex flex-col sm:flex-row gap-2.5 mt-5">
+                        <button className="inline-flex items-center justify-center gap-1 font-mono-custom text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-4 py-2.5 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)] w-full sm:w-auto">
                           Save Changes
                         </button>
-                        <button className="inline-flex items-center gap-1 font-mono-custom text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-slate-600 border border-slate-200 px-4 py-2.5 cursor-pointer transition-colors hover:border-sky-500 hover:text-sky-500">
+                        <button className="inline-flex items-center justify-center gap-1 font-mono-custom text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-slate-600 border border-slate-200 px-4 py-2.5 cursor-pointer transition-colors hover:border-sky-500 hover:text-sky-500 w-full sm:w-auto">
                           Discard
                         </button>
                       </div>
@@ -386,30 +389,30 @@ export default function UserSettingsPage() {
                   </div>
 
                   {/* Comms Channel */}
-                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
+                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
                     <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
                       <div>
                         <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                           Comms Channel
                         </div>
-                        <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                           Email & contact configuration
                         </div>
                       </div>
                     </div>
-                    <div className="p-5">
+                    <div className="p-4 sm:p-5">
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Primary Email
                         </label>
                         <input
                           className="w-full bg-slate-100 border border-slate-200 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-slate-900 outline-none focus:border-sky-500 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.1)] transition-colors"
                           type="email"
-                          defaultValue="admin@tenant.com"
+                          defaultValue="elangnoah87@gmail.com"
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Recovery Email
                         </label>
                         <input
@@ -419,7 +422,7 @@ export default function UserSettingsPage() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Telegram Handle
                         </label>
                         <input
@@ -429,7 +432,7 @@ export default function UserSettingsPage() {
                         />
                       </div>
                       <div className="flex gap-2.5 mt-5">
-                        <button className="inline-flex items-center gap-1 font-mono-custom text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-4 py-2.5 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)]">
+                        <button className="inline-flex items-center justify-center gap-1 font-mono-custom text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-4 py-2.5 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)] w-full sm:w-auto">
                           Update Comms
                         </button>
                       </div>
@@ -438,18 +441,18 @@ export default function UserSettingsPage() {
                 </div>
 
                 {/* Danger Zone */}
-                <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
+                <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mt-4">
                   <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
                     <div>
                       <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                         Danger Zone
                       </div>
-                      <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
-                        Irreversible account operations — proceed with caution
+                      <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
+                        Irreversible account operations
                       </div>
                     </div>
                   </div>
-                  <div className="p-5 flex items-center justify-between flex-wrap gap-4">
+                  <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                         Decommission Account
@@ -459,7 +462,7 @@ export default function UserSettingsPage() {
                         keys.
                       </div>
                     </div>
-                    <button className="inline-flex items-center gap-1 font-mono-custom text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3.5 py-[0.45rem] cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500">
+                    <button className="inline-flex items-center justify-center gap-1 font-mono-custom text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3.5 py-[0.5rem] cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500 w-full sm:w-auto">
                       <svg
                         className="w-3 h-3"
                         fill="none"
@@ -485,8 +488,8 @@ export default function UserSettingsPage() {
               <div className="animate-[fadeIn_0.22s_ease]">
                 {/* Security Score */}
                 <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-3">
+                  <div className="p-4 sm:p-5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
                       <div>
                         <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                           Security Score
@@ -495,8 +498,8 @@ export default function UserSettingsPage() {
                           Enable MFA to reach 100%
                         </div>
                       </div>
-                      <div className="font-mono-custom text-[14px] font-bold text-sky-500">
-                        68
+                      <div className="font-mono-custom text-[16px] sm:text-[14px] font-bold text-sky-500 self-start sm:self-auto">
+                        68{" "}
                         <span className="text-[0.85rem] text-slate-400">
                           /100
                         </span>
@@ -510,21 +513,21 @@ export default function UserSettingsPage() {
                         <div className="absolute right-0 -top-[3px] w-3 h-3 rounded-full bg-indigo-500 shadow-[0_0_8px_var(--indigo)]" />
                       </div>
                     </div>
-                    <div className="flex gap-6 mt-3.5 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-mono-custom text-[11px]">
-                        <span className="w-2 h-2 rounded-full bg-green-500" />
+                    <div className="flex gap-4 sm:gap-6 mt-3.5 flex-wrap">
+                      <div className="flex items-center gap-1.5 font-mono-custom text-[10px] sm:text-[11px]">
+                        <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
                         <span className="text-slate-400">Password Set</span>
                       </div>
-                      <div className="flex items-center gap-1.5 font-mono-custom text-[11px]">
-                        <span className="w-2 h-2 rounded-full bg-green-500" />
+                      <div className="flex items-center gap-1.5 font-mono-custom text-[10px] sm:text-[11px]">
+                        <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
                         <span className="text-slate-400">Email Verified</span>
                       </div>
-                      <div className="flex items-center gap-1.5 font-mono-custom text-[11px]">
-                        <span className="w-2 h-2 rounded-full bg-amber-500" />
+                      <div className="flex items-center gap-1.5 font-mono-custom text-[10px] sm:text-[11px]">
+                        <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
                         <span className="text-slate-400">MFA Inactive</span>
                       </div>
-                      <div className="flex items-center gap-1.5 font-mono-custom text-[11px]">
-                        <span className="w-2 h-2 rounded-full bg-slate-200" />
+                      <div className="flex items-center gap-1.5 font-mono-custom text-[10px] sm:text-[11px]">
+                        <span className="w-2 h-2 rounded-full bg-slate-200 shrink-0" />
                         <span className="text-slate-400">
                           Hardware Key — Not set
                         </span>
@@ -533,36 +536,36 @@ export default function UserSettingsPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
                   {/* Password */}
-                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
+                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4 lg:mb-0">
                     <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
                       <div>
                         <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                           Cryptographic Password
                         </div>
-                        <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                           Update your access key
                         </div>
                       </div>
                     </div>
-                    <div className="p-5">
+                    <div className="p-4 sm:p-5">
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Current Password
                         </label>
                         <input
-                          className="w-full bg-slate-900 border border-white/8 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-sky-500 outline-none tracking-[0.12em] focus:border-sky-500/40 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.08)] transition-colors"
+                          className="w-full bg-slate-900 border border-slate-700 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-sky-500 outline-none tracking-[0.12em] focus:border-sky-500/40 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.2)] transition-colors"
                           type="password"
                           placeholder="••••••••••••"
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           New Password
                         </label>
                         <input
-                          className="w-full bg-slate-900 border border-white/8 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-sky-500 outline-none tracking-[0.12em] focus:border-sky-500/40 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.08)] transition-colors"
+                          className="w-full bg-slate-900 border border-slate-700 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-sky-500 outline-none tracking-[0.12em] focus:border-sky-500/40 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.2)] transition-colors"
                           type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
@@ -593,41 +596,41 @@ export default function UserSettingsPage() {
                                       : passwordStrength.text === "ACCEPTABLE"
                                         ? "#f59e0b"
                                         : "#22c55e"
-                                    : "var(--border)",
+                                    : "#e2e8f0",
                               }}
                             />
                           ))}
                         </div>
                       </div>
                       <div className="mb-4">
-                        <label className="block font-mono-custom text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
+                        <label className="block font-mono-custom text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-1">
                           Confirm Password
                         </label>
                         <input
-                          className="w-full bg-slate-900 border border-white/8 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-sky-500 outline-none tracking-[0.12em] focus:border-sky-500/40 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.08)] transition-colors"
+                          className="w-full bg-slate-900 border border-slate-700 rounded-[0.625rem] px-3.5 py-[0.65rem] font-mono-custom text-[12px] text-sky-500 outline-none tracking-[0.12em] focus:border-sky-500/40 focus:shadow-[0_0_0_3px_rgba(14,165,233,0.2)] transition-colors"
                           type="password"
                           placeholder="Repeat key..."
                         />
                       </div>
-                      <button className="inline-flex items-center justify-center gap-1 font-mono-custom text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-4 py-2.5 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)] mt-2 w-full">
+                      <button className="inline-flex items-center justify-center gap-1 font-mono-custom text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-4 py-2.5 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)] mt-2 w-full">
                         Update Password
                       </button>
                     </div>
                   </div>
 
                   {/* MFA */}
-                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
+                  <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
                     <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
                       <div>
                         <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                           Multi-Factor Authentication
                         </div>
-                        <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                           Add layers to your fortress
                         </div>
                       </div>
                     </div>
-                    <div className="p-5">
+                    <div className="p-4 sm:p-5">
                       {[
                         {
                           label: "OTP via Authenticator App",
@@ -645,20 +648,22 @@ export default function UserSettingsPage() {
                       ].map((item, i) => (
                         <div
                           key={i}
-                          className={`flex items-center justify-between py-3.5 ${i < 2 ? "border-b border-slate-100" : ""}`}
+                          className={`flex items-start sm:items-center justify-between py-3.5 gap-2 ${
+                            i < 2 ? "border-b border-slate-100" : ""
+                          }`}
                         >
-                          <div className="flex-1">
-                            <div className="font-mono-custom text-[12px] font-bold text-slate-900">
+                          <div className="flex-1 pr-2">
+                            <div className="font-mono-custom text-[11px] sm:text-[12px] font-bold text-slate-900 leading-tight">
                               {item.label}
                             </div>
-                            <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                            <div className="font-mono-custom text-[10px] sm:text-[12px] text-slate-400 mt-0.5 sm:mt-1 leading-tight">
                               {item.desc}
                             </div>
                           </div>
-                          <label className="relative w-11 h-6 flex-shrink-0 ml-4 cursor-pointer">
+                          <label className="relative w-11 h-6 flex-shrink-0 cursor-pointer mt-1 sm:mt-0">
                             <input
                               type="checkbox"
-                              className="opacity-0 absolute w-0 h-0"
+                              className="opacity-0 absolute w-0 h-0 peer"
                               defaultChecked={item.checked}
                             />
                             <span className="absolute inset-0 bg-slate-200 rounded-[99px] transition-colors after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:w-[18px] after:h-[18px] after:rounded-full after:bg-white after:shadow-[0_1px_4px_rgba(0,0,0,0.15)] after:transition-transform peer-checked:bg-sky-500 peer-checked:after:translate-x-5" />
@@ -666,10 +671,10 @@ export default function UserSettingsPage() {
                         </div>
                       ))}
                       <div className="mt-4 p-3 bg-amber-100/70 border border-amber-200 rounded-[0.625rem]">
-                        <div className="font-mono-custom text-[11px] font-bold text-amber-600 mb-0.5">
+                        <div className="font-mono-custom text-[10px] sm:text-[11px] font-bold text-amber-600 mb-0.5">
                           ⚠ MFA Not Active
                         </div>
-                        <div className="font-mono-custom text-[9px] text-slate-400">
+                        <div className="font-mono-custom text-[9px] sm:text-[10px] text-slate-500 leading-relaxed">
                           Activate OTP or Hardware Key to increase your Security
                           Score to 100.
                         </div>
@@ -679,17 +684,23 @@ export default function UserSettingsPage() {
                 </div>
 
                 {/* Active Sessions */}
-                <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
+                <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mt-4">
                   <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
                     <div>
                       <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                         Active Session Monitoring
                       </div>
-                      <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
-                        Devices with active access to your account
+                      <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
+                        Devices with active access
                       </div>
                     </div>
-                    <button className="inline-flex items-center gap-1 font-mono-custom text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3 py-1 cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500">
+                    <button className="hidden sm:inline-flex items-center gap-1 font-mono-custom text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3 py-1 cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500">
+                      Terminate All Others
+                    </button>
+                  </div>
+                  {/* Mobile Terminate All Button */}
+                  <div className="px-4 pt-3 pb-1 sm:hidden border-b border-slate-100">
+                    <button className="w-full justify-center inline-flex items-center gap-1 font-mono-custom text-[10px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3 py-2 cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500">
                       Terminate All Others
                     </button>
                   </div>
@@ -722,52 +733,69 @@ export default function UserSettingsPage() {
                   ].map((session, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3.5 px-5 py-3.5 border-b border-slate-100 hover:bg-sky-50/30 transition-colors last:border-b-0"
+                      className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-3.5 px-4 sm:px-5 py-4 sm:py-3.5 border-b border-slate-100 hover:bg-sky-50/30 transition-colors last:border-b-0"
                     >
-                      <div
-                        className={`w-[34px] h-[34px] rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 flex-shrink-0 ${session.unknown ? "text-red-500 bg-red-50/70 border-red-200/80" : ""}`}
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d={session.icon}
-                          />
-                        </svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
+                      <div className="flex items-start sm:items-center gap-3 w-full">
                         <div
-                          className={`font-mono-custom font-bold text-[12px] tracking-[0.06em] ${session.unknown ? "text-red-500" : "text-sky-500"}`}
+                          className={`w-[34px] h-[34px] rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 flex-shrink-0 ${
+                            session.unknown
+                              ? "text-red-500 bg-red-50/70 border-red-200/80"
+                              : ""
+                          }`}
                         >
-                          [SESSION_ID: {session.id}]
-                          {session.unknown && " ⚠ UNKNOWN"}
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d={session.icon}
+                            />
+                          </svg>
                         </div>
-                        <div className="text-slate-900 text-[12px]">
-                          {session.device}
+                        <div className="flex-1 min-w-0 pr-2">
+                          <div
+                            className={`font-mono-custom font-bold text-[11px] sm:text-[12px] tracking-[0.06em] truncate ${
+                              session.unknown ? "text-red-500" : "text-sky-500"
+                            }`}
+                          >
+                            [SESSION_ID: {session.id}]{" "}
+                            {session.unknown && " ⚠ UNKNOWN"}
+                          </div>
+                          <div className="text-slate-900 text-[11px] sm:text-[12px] truncate">
+                            {session.device}
+                          </div>
+                          <div className="text-slate-400 text-[10px] sm:text-[12px] mt-0.5 truncate">
+                            📍 {session.loc}
+                          </div>
                         </div>
-                        <div className="text-slate-400 text-[12px] mt-0.5">
-                          📍 {session.loc}
+                        <div
+                          className={`hidden sm:block text-[11px] sm:text-[12px] text-slate-400 whitespace-nowrap self-start sm:self-auto ${session.unknown ? "text-red-500" : ""}`}
+                        >
+                          {session.time}
                         </div>
                       </div>
-                      {session.current ? (
-                        <span className="text-[11px] text-green-600 font-bold bg-green-100 border border-green-200 px-1.5 py-0.5 rounded">
-                          ● CURRENT
-                        </span>
-                      ) : (
-                        <button className="inline-flex items-center gap-1 font-mono-custom text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3 py-1 cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500 ml-2.5">
-                          TERMINATE
-                        </button>
-                      )}
-                      <div
-                        className={`text-[12px] text-slate-400 whitespace-nowrap ${session.unknown ? "text-red-500" : ""}`}
-                      >
-                        {session.time}
+
+                      {/* Button/Status Area - Below on mobile, inline on desktop */}
+                      <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto pl-11 sm:pl-0 mt-1 sm:mt-0">
+                        <div
+                          className={`sm:hidden text-[11px] text-slate-400 whitespace-nowrap ${session.unknown ? "text-red-500" : ""}`}
+                        >
+                          {session.time}
+                        </div>
+                        {session.current ? (
+                          <span className="text-[10px] sm:text-[11px] text-green-600 font-bold bg-green-100 border border-green-200 px-1.5 py-0.5 rounded ml-auto">
+                            ● CURRENT
+                          </span>
+                        ) : (
+                          <button className="inline-flex items-center justify-center gap-1 font-mono-custom text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3 py-1 cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500 ml-auto">
+                            TERMINATE
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -780,16 +808,16 @@ export default function UserSettingsPage() {
               <div className="animate-[fadeIn_0.22s_ease]">
                 {/* API Keys */}
                 <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
-                  <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
+                  <div className="p-3.5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                         API Key Management
                       </div>
-                      <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                      <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                         Authorization tokens — never exposed in plaintext
                       </div>
                     </div>
-                    <button className="inline-flex items-center gap-1 font-mono-custom text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-3 py-1 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)]">
+                    <button className="inline-flex justify-center items-center gap-1 font-mono-custom text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-slate-900 text-white px-3 py-2 sm:py-1 cursor-pointer transition-colors hover:bg-sky-500 shadow-[0_2px_8px_rgba(15,23,42,0.18)]">
                       <svg
                         className="w-[11px] h-[11px]"
                         fill="none"
@@ -808,23 +836,24 @@ export default function UserSettingsPage() {
                   </div>
 
                   {/* Key 1 */}
-                  <div className="px-5 py-4 border-b border-slate-100">
-                    <div className="flex items-center justify-between mb-2.5">
-                      <div>
-                        <div className="font-mono-custom text-[12px] font-bold text-slate-900">
+                  <div className="px-4 sm:px-5 py-4 border-b border-slate-100">
+                    <div className="flex items-start sm:items-center justify-between mb-3 gap-2">
+                      <div className="pr-2">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] font-bold text-slate-900">
                           Production Key
                         </div>
-                        <div className="font-mono-custom text-[9px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[9px] sm:text-[10px] text-slate-400 mt-0.5">
                           Created 2026-01-15 · Last used 3h ago
                         </div>
                       </div>
-                      <span className="font-mono-custom text-[9px] text-green-600 bg-green-100 border border-green-200 px-1.5 py-0.5 rounded">
+                      <span className="font-mono-custom text-[9px] sm:text-[10px] text-green-600 bg-green-100 border border-green-200 px-1.5 py-0.5 rounded shrink-0">
                         ACTIVE
                       </span>
                     </div>
-                    <div className="bg-slate-900 border border-white/7 rounded-[0.75rem] px-4 py-3.5 flex items-center gap-3 font-mono-custom text-[0.75rem] text-sky-500 tracking-[0.1em]">
+
+                    <div className="bg-slate-900 border border-slate-700 rounded-[0.75rem] px-3 sm:px-4 py-3 flex items-center gap-2 sm:gap-3 font-mono-custom text-[11px] sm:text-[12px] text-sky-500 tracking-wider sm:tracking-[0.1em]">
                       <svg
-                        className="w-[14px] h-[14px] text-sky-500 flex-shrink-0"
+                        className="w-[14px] h-[14px] text-sky-500 flex-shrink-0 hidden sm:block"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -836,68 +865,26 @@ export default function UserSettingsPage() {
                           d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
                         />
                       </svg>
-                      <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                      <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap min-w-0">
                         {revealedKeys.key1.visible
                           ? "onyx_sk_8f4a2b9c1d3e5f6a7b8c9d0e1f2a3b4c"
                           : "onyx_sk_••••••••••••••••••••••••••••••••••••"}
                       </div>
                       {revealedKeys.key1.timer !== null && (
-                        <span className="text-[11px] text-amber-500 font-bold bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded whitespace-nowrap">
+                        <span className="hidden sm:inline-block text-[10px] text-amber-500 font-bold bg-amber-100/20 border border-amber-500/30 px-1.5 py-0.5 rounded whitespace-nowrap ml-2">
                           Hiding in {revealedKeys.key1.timer}s
                         </span>
                       )}
-                      <button
-                        onClick={() =>
-                          handleRevealKey(
-                            "key1",
-                            "onyx_sk_8f4a2b9c1d3e5f6a7b8c9d0e1f2a3b4c",
-                          )
-                        }
-                        className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors"
-                      >
-                        <svg
-                          className="w-[14px] h-[14px]"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
+                      <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-1 sm:ml-0">
+                        <button
+                          onClick={() =>
+                            handleRevealKey(
+                              "key1",
+                              "onyx_sk_8f4a2b9c1d3e5f6a7b8c9d0e1f2a3b4c",
+                            )
+                          }
+                          className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors p-1"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleCopyKey(
-                            "onyx_sk_8f4a2b9c1d3e5f6a7b8c9d0e1f2a3b4c",
-                            "key1",
-                          )
-                        }
-                        className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors"
-                      >
-                        {copyFeedback.key1 ? (
-                          <svg
-                            className="w-[14px] h-[14px]"
-                            fill="none"
-                            stroke="#22c55e"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2.5}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        ) : (
                           <svg
                             className="w-[14px] h-[14px]"
                             fill="none"
@@ -908,32 +895,77 @@ export default function UserSettingsPage() {
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                             />
                           </svg>
-                        )}
-                      </button>
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleCopyKey(
+                              "onyx_sk_8f4a2b9c1d3e5f6a7b8c9d0e1f2a3b4c",
+                              "key1",
+                            )
+                          }
+                          className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors p-1"
+                        >
+                          {copyFeedback.key1 ? (
+                            <svg
+                              className="w-[14px] h-[14px]"
+                              fill="none"
+                              stroke="#22c55e"
+                              viewBox="0 0 24 24"
+                              strokeWidth={2.5}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              className="w-[14px] h-[14px]"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              strokeWidth={2}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                              />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
 
                   {/* Key 2 */}
-                  <div className="px-5 py-4">
-                    <div className="flex items-center justify-between mb-2.5">
-                      <div>
-                        <div className="font-mono-custom text-[12px] font-bold text-slate-900">
+                  <div className="px-4 sm:px-5 py-4">
+                    <div className="flex items-start sm:items-center justify-between mb-3 gap-2">
+                      <div className="pr-2">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] font-bold text-slate-900">
                           Staging Key
                         </div>
-                        <div className="font-mono-custom text-[9px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[9px] sm:text-[10px] text-slate-400 mt-0.5">
                           Created 2026-02-03 · Last used 2d ago
                         </div>
                       </div>
-                      <span className="font-mono-custom text-[9px] text-amber-600 bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded">
+                      <span className="font-mono-custom text-[9px] sm:text-[10px] text-amber-600 bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded shrink-0">
                         READ-ONLY
                       </span>
                     </div>
-                    <div className="bg-slate-900 border border-white/7 rounded-[0.75rem] px-4 py-3.5 flex items-center gap-3 font-mono-custom text-[0.75rem] text-sky-500 tracking-[0.1em]">
+
+                    <div className="bg-slate-900 border border-slate-700 rounded-[0.75rem] px-3 sm:px-4 py-3 flex items-center gap-2 sm:gap-3 font-mono-custom text-[11px] sm:text-[12px] text-sky-500 tracking-wider sm:tracking-[0.1em]">
                       <svg
-                        className="w-[14px] h-[14px] text-sky-500 flex-shrink-0"
+                        className="w-[14px] h-[14px] text-sky-500 flex-shrink-0 hidden sm:block"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -945,68 +977,26 @@ export default function UserSettingsPage() {
                           d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
                         />
                       </svg>
-                      <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                      <div className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap min-w-0">
                         {revealedKeys.key2.visible
                           ? "onyx_sk_rk92ms3lt7px8nq1vd6cf4ow5ue0ybai"
                           : "onyx_sk_••••••••••••••••••••••••••••••••••••"}
                       </div>
                       {revealedKeys.key2.timer !== null && (
-                        <span className="text-[11px] text-amber-500 font-bold bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded whitespace-nowrap">
+                        <span className="hidden sm:inline-block text-[10px] text-amber-500 font-bold bg-amber-100/20 border border-amber-500/30 px-1.5 py-0.5 rounded whitespace-nowrap ml-2">
                           Hiding in {revealedKeys.key2.timer}s
                         </span>
                       )}
-                      <button
-                        onClick={() =>
-                          handleRevealKey(
-                            "key2",
-                            "onyx_sk_rk92ms3lt7px8nq1vd6cf4ow5ue0ybai",
-                          )
-                        }
-                        className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors"
-                      >
-                        <svg
-                          className="w-[14px] h-[14px]"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
+                      <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-1 sm:ml-0">
+                        <button
+                          onClick={() =>
+                            handleRevealKey(
+                              "key2",
+                              "onyx_sk_rk92ms3lt7px8nq1vd6cf4ow5ue0ybai",
+                            )
+                          }
+                          className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors p-1"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleCopyKey(
-                            "onyx_sk_rk92ms3lt7px8nq1vd6cf4ow5ue0ybai",
-                            "key2",
-                          )
-                        }
-                        className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors"
-                      >
-                        {copyFeedback.key2 ? (
-                          <svg
-                            className="w-[14px] h-[14px]"
-                            fill="none"
-                            stroke="#22c55e"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2.5}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        ) : (
                           <svg
                             className="w-[14px] h-[14px]"
                             fill="none"
@@ -1017,27 +1007,71 @@ export default function UserSettingsPage() {
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                             />
                           </svg>
-                        )}
-                      </button>
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleCopyKey(
+                              "onyx_sk_rk92ms3lt7px8nq1vd6cf4ow5ue0ybai",
+                              "key2",
+                            )
+                          }
+                          className="bg-none border-none cursor-pointer text-slate-400 hover:text-sky-500 transition-colors p-1"
+                        >
+                          {copyFeedback.key2 ? (
+                            <svg
+                              className="w-[14px] h-[14px]"
+                              fill="none"
+                              stroke="#22c55e"
+                              viewBox="0 0 24 24"
+                              strokeWidth={2.5}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              className="w-[14px] h-[14px]"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              strokeWidth={2}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                              />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Webhooks */}
                 <div className="bg-white border border-slate-200 rounded-[1rem] overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.05)] mb-4">
-                  <div className="p-3.5 border-b border-slate-100 flex items-center justify-between">
+                  <div className="p-3.5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                         Webhook Endpoints
                       </div>
-                      <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                      <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                         POST callbacks for scan events and alerts
                       </div>
                     </div>
-                    <button className="inline-flex items-center gap-1 font-mono-custom text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-slate-600 border border-slate-200 px-3 py-1 cursor-pointer transition-colors hover:border-sky-500 hover:text-sky-500">
+                    <button className="inline-flex justify-center items-center gap-1 font-mono-custom text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-slate-600 border border-slate-200 px-3 py-2 sm:py-1 cursor-pointer transition-colors hover:border-sky-500 hover:text-sky-500">
                       Add Endpoint
                     </button>
                   </div>
@@ -1057,27 +1091,40 @@ export default function UserSettingsPage() {
                   ].map((webhook, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-2.5 px-5 py-3 border-b border-slate-100 last:border-b-0 font-mono-custom text-[12px]"
+                      className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-2.5 px-4 sm:px-5 py-4 sm:py-3 border-b border-slate-100 last:border-b-0 font-mono-custom text-[12px]"
                     >
-                      <div
-                        className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${webhook.statusColor === "green" ? "bg-green-500" : "bg-amber-500"}`}
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="text-slate-900 overflow-hidden text-ellipsis whitespace-nowrap">
-                          {webhook.url}
-                        </div>
-                        <div className="text-slate-400 text-[11px] mt-0.5">
-                          Events: {webhook.events}
+                      <div className="flex items-center gap-2.5 w-full sm:w-auto overflow-hidden">
+                        <div
+                          className={`w-1.5 h-1.5 rounded-full flex-shrink-0 hidden sm:block ${
+                            webhook.statusColor === "green"
+                              ? "bg-green-500"
+                              : "bg-amber-500"
+                          }`}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-slate-900 overflow-hidden text-ellipsis whitespace-nowrap">
+                            {webhook.url}
+                          </div>
+                          <div className="text-slate-400 text-[10px] sm:text-[11px] mt-0.5">
+                            Events: {webhook.events}
+                          </div>
                         </div>
                       </div>
-                      <span
-                        className={`font-mono-custom text-[9px] ${webhook.statusColor === "green" ? "text-green-600 bg-green-100 border border-green-200" : "text-amber-600 bg-amber-100 border border-amber-200"} px-1.5 py-0.5 rounded`}
-                      >
-                        {webhook.status}
-                      </span>
-                      <button className="inline-flex items-center gap-1 font-mono-custom text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3 py-1 cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500 ml-2">
-                        Remove
-                      </button>
+
+                      <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto mt-1 sm:mt-0 sm:ml-auto shrink-0">
+                        <span
+                          className={`font-mono-custom text-[9px] ${
+                            webhook.statusColor === "green"
+                              ? "text-green-600 bg-green-100 border border-green-200"
+                              : "text-amber-600 bg-amber-100 border border-amber-200"
+                          } px-1.5 py-0.5 rounded`}
+                        >
+                          {webhook.status}
+                        </span>
+                        <button className="inline-flex items-center gap-1 font-mono-custom text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.06em] rounded-[0.625rem] bg-white text-red-500 border border-red-200 px-3 py-1 cursor-pointer transition-colors hover:bg-red-50 hover:border-red-500 ml-2">
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1094,7 +1141,7 @@ export default function UserSettingsPage() {
                       <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                         Critical Security Alerts
                       </div>
-                      <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                      <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                         Triggers for high-severity scan events
                       </div>
                     </div>
@@ -1102,7 +1149,7 @@ export default function UserSettingsPage() {
                   {notifications.slice(0, 3).map((notif) => (
                     <div
                       key={notif.id}
-                      className="flex items-start gap-4 px-5 py-3.5 border-b border-slate-100 last:border-b-0"
+                      className="flex items-start gap-3 sm:gap-4 px-4 sm:px-5 py-4 sm:py-3.5 border-b border-slate-100 last:border-b-0"
                     >
                       <div
                         onClick={() => toggleNotification(notif.id)}
@@ -1128,20 +1175,23 @@ export default function UserSettingsPage() {
                           </svg>
                         )}
                       </div>
-                      <div className="flex-1">
-                        <div className="font-mono-custom text-[12px] font-bold text-slate-900">
+                      <div className="flex-1 pr-1 sm:pr-0">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] font-bold text-slate-900 leading-tight">
                           {notif.title}
                         </div>
-                        <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[10px] sm:text-[12px] text-slate-400 mt-0.5 sm:mt-1 leading-snug">
                           {notif.desc}
                         </div>
-                        <div className="flex gap-1.5 mt-2 flex-wrap">
+                        <div className="flex gap-1.5 mt-2.5 sm:mt-2 flex-wrap">
                           {(["email", "telegram", "webpush"] as const).map(
                             (channel) => (
                               <span
                                 key={channel}
                                 onClick={() => toggleChannel(notif.id, channel)}
-                                className={`font-mono-custom text-[11px] font-bold px-1.5 py-0.5 rounded cursor-pointer transition-colors select-none ${getChannelClass(notif.channels[channel], channel)}`}
+                                className={`font-mono-custom text-[10px] sm:text-[11px] font-bold px-2 py-0.5 sm:px-1.5 rounded cursor-pointer transition-colors select-none ${getChannelClass(
+                                  notif.channels[channel],
+                                  channel,
+                                )}`}
                               >
                                 {channel === "email"
                                   ? "Email"
@@ -1164,7 +1214,7 @@ export default function UserSettingsPage() {
                       <div className="font-mono-custom text-[12px] font-bold text-slate-900">
                         Administrative & Operational
                       </div>
-                      <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                      <div className="font-mono-custom text-[11px] sm:text-[12px] text-slate-400 mt-0.5">
                         Routine system and billing notifications
                       </div>
                     </div>
@@ -1172,7 +1222,7 @@ export default function UserSettingsPage() {
                   {notifications.slice(3).map((notif) => (
                     <div
                       key={notif.id}
-                      className="flex items-start gap-4 px-5 py-3.5 border-b border-slate-100 last:border-b-0"
+                      className="flex items-start gap-3 sm:gap-4 px-4 sm:px-5 py-4 sm:py-3.5 border-b border-slate-100 last:border-b-0"
                     >
                       <div
                         onClick={() => toggleNotification(notif.id)}
@@ -1198,20 +1248,23 @@ export default function UserSettingsPage() {
                           </svg>
                         )}
                       </div>
-                      <div className="flex-1">
-                        <div className="font-mono-custom text-[12px] font-bold text-slate-900">
+                      <div className="flex-1 pr-1 sm:pr-0">
+                        <div className="font-mono-custom text-[11px] sm:text-[12px] font-bold text-slate-900 leading-tight">
                           {notif.title}
                         </div>
-                        <div className="font-mono-custom text-[12px] text-slate-400 mt-0.5">
+                        <div className="font-mono-custom text-[10px] sm:text-[12px] text-slate-400 mt-0.5 sm:mt-1 leading-snug">
                           {notif.desc}
                         </div>
-                        <div className="flex gap-1.5 mt-2 flex-wrap">
+                        <div className="flex gap-1.5 mt-2.5 sm:mt-2 flex-wrap">
                           {(["email", "telegram", "webpush"] as const).map(
                             (channel) => (
                               <span
                                 key={channel}
                                 onClick={() => toggleChannel(notif.id, channel)}
-                                className={`font-mono-custom text-[11px] font-bold px-1.5 py-0.5 rounded cursor-pointer transition-colors select-none ${getChannelClass(notif.channels[channel], channel)}`}
+                                className={`font-mono-custom text-[10px] sm:text-[11px] font-bold px-2 py-0.5 sm:px-1.5 rounded cursor-pointer transition-colors select-none ${getChannelClass(
+                                  notif.channels[channel],
+                                  channel,
+                                )}`}
                               >
                                 {channel === "email"
                                   ? "Email"
