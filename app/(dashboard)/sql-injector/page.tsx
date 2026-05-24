@@ -299,25 +299,25 @@ export default function SqlMapInjector() {
     <div className="font-inter text-slate-800 flex selection:bg-red-500 selection:text-white bg-slate-50">
       <main className="flex-1 flex flex-col relative bg-dashboard-grid">
         {/* ── Header ── */}
-        <header className="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/80 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40 shadow-sm flex-shrink-0">
+        <header className="h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/80 pl-20 pr-4 md:px-8 flex items-center justify-between sticky top-0 z-40 shadow-sm flex-shrink-0">
           <div className="flex items-center gap-4">
             <div>
-              <h2 className="font-mono-custom font-bold text-xl text-slate-800 tracking-tight">
+              <h2 className="font-mono-custom font-bold text-lg md:text-xl text-slate-800 tracking-tight">
                 SQL Map Injector
               </h2>
-              <p className="text-xs font-mono-custom text-slate-500 mt-0.5 hidden sm:block">
+              <p className="text-[10px] sm:text-xs font-mono-custom text-slate-500 mt-0.5 hidden sm:block">
                 Advanced SQL Injection Exploitation Module
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className={`items-center gap-2 bg-red-50 border border-red-200 px-3 py-1.5 rounded-xl shadow-sm ${isScanning ? "flex" : "hidden"}`}>
+            <div className={`items-center gap-2 bg-red-50 border border-red-200 px-2 sm:px-3 py-1.5 rounded-xl shadow-sm ${isScanning ? "flex" : "hidden"}`}>
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping-radar absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
               </span>
-              <span className="font-mono-custom text-[10px] font-bold text-red-600 uppercase tracking-widest">
+              <span className="font-mono-custom text-[9px] sm:text-[10px] font-bold text-red-600 uppercase tracking-widest hidden sm:inline-block">
                 Injecting Payloads
               </span>
             </div>
