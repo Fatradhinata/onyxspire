@@ -175,19 +175,10 @@ const CheckIcon = () => (
 /* ─────────────────────────── Header ─────────────────────────── */
 
 const Header: React.FC = () => (
-  <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-sm flex-shrink-0">
-    <div className="flex items-center gap-4">
-      <button className="md:hidden text-slate-600 hover:text-sky-500 focus:outline-none transition-colors">
-        <IconMenu />
-      </button>
-      <div>
-        <h2 className="font-mono font-bold text-lg sm:text-xl text-slate-800 tracking-tight">
-          Scanner Hub
-        </h2>
-        <p className="text-[10px] sm:text-xs font-mono text-slate-500 mt-0.5 hidden sm:block">
-          Automated Penetration Engine Room
-        </p>
-      </div>
+  <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 pl-16 pr-4 md:pl-8 md:pr-8 flex items-center justify-between sticky top-0 z-30 shadow-sm flex-shrink-0">
+    <div>
+      <h2 className="font-mono font-bold text-lg md:text-xl text-slate-800 tracking-tight">Scanner Hub</h2>
+      <p className="text-[10px] font-mono text-slate-500 mt-0.5 uppercase tracking-widest hidden sm:block">Automated Penetration Engine Room</p>
     </div>
 
     <div className="flex items-center gap-3">
@@ -836,9 +827,9 @@ const ScannerHub: React.FC = () => {
 
   return (
     <div className="font-sans bg-[#f8fafc] text-slate-800 flex selection:bg-sky-500 selection:text-white">
-      <main className="flex-1 flex flex-col relative bg-dashboard-grid z-10">
+      <main className="flex-1 flex flex-col relative bg-dashboard-grid z-10 h-screen overflow-y-auto terminal-scroll">
         <Header />
-        <div className="p-4 sm:p-8 mx-auto w-full space-y-6 sm:space-y-8 pb-20 max-w-7xl">
+        <div className="p-4 md:p-6 xl:p-8 mx-auto w-full space-y-6 sm:space-y-8 pb-20 max-w-7xl">
           <TargetVector
             target={target}
             setTarget={setTarget}
